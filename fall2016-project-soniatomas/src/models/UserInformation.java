@@ -9,6 +9,8 @@ public class UserInformation {
 	private String email;
 	private ProductHistory productHistory;
 	
+
+	
 	/**
 	 * Constructor for User
 	 * for this implementation password is set to null because it will be handled by PasswordHandler

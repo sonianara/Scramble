@@ -2,6 +2,9 @@ package models;
 
 import java.util.*;
 
+
+
+
 public class ProductHistory {
 	private HashMap<String, MakeupProduct> makeupProductHistory = new HashMap<String, MakeupProduct>();
 	private HashMap<String, SkincareProduct> skincareProductHistory = new HashMap<String, SkincareProduct>();
