@@ -8,6 +8,7 @@ import models.MakeupProduct;
 import models.ProductHistory;
 import models.SkincareProduct;
 
+
 public class ProductHistoryTest {
 	ProductHistory productHistory = new ProductHistory();
 	

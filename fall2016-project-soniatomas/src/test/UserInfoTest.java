@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import models.UserInformation;
 
+
 public class UserInfoTest {
 
 	UserInformation ui = new UserInformation();
