@@ -3,6 +3,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
+
+/* Singleton Design Pattern: Using a class to hold all Scrabble letters & return new letters if needed
+
+   This pattern is used because each player can potentially have the  same letters, 
+   but each player has their own set of letters */
+
 public class TileSet {
 	private int numLetters;
 	private ArrayList<Letter> letters;
