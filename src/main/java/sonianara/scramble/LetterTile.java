@@ -1,4 +1,4 @@
-public class Letter {
+public class LetterTile implements Tile {
 	private char letter;
 	private int pointValue;
 	

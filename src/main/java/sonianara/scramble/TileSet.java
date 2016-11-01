@@ -3,14 +3,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
-public class RandomLetters {
+public class TileSet {
 	private int numLetters;
 	private ArrayList<Letter> letters;
 	private HashMap<Character, Integer> numLettersMap;
 	public static HashMap<Character, Integer> letterValueMap;
 	
 	
-	public RandomLetters() {
+	public TileSet() {
 		numLettersMap = new HashMap<Character, Integer>();
 		letterValueMap = new HashMap<Character, Integer>();
 		letters = new ArrayList<Letter>();
@@ -163,6 +163,7 @@ public class RandomLetters {
 		numLetters--;
 		return letters.remove(0);
 	}
+
 	public ArrayList<Letter> getFullSet() {
 		if (numLetters < 7) return null;
 		ArrayList<Letter> newLetters = new ArrayList<Letter>();
@@ -172,4 +173,17 @@ public class RandomLetters {
 		}
 		return newLetters;
 	}
+
+	public boolean isEmpty(ArrayList<LetterTile> letterSet) {
+		
+	}
+
+	public boolean contains() {
+
+	}
+
+	public ArrayList<Letter> removeRandomLetters() {
+
+	}
+
 }
