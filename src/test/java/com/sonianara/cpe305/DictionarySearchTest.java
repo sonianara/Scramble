@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.sonianara.cpe305.DictionarySearch;
+
 public class DictionarySearchTest {
 
 	@Test
