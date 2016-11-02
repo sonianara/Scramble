@@ -1,8 +1,8 @@
+package com.sonianara.cpe305;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import source.DictionarySearch;
 
 public class DictionarySearchTest {
 
@@ -26,5 +26,10 @@ public class DictionarySearchTest {
 		assertEquals(false, dictionary.contains("`1234"));
 		
 	}
+	
+	public static void main(String [] args) {
+    org.junit.runner.JUnitCore.main("DictionarySearchTest");
+	}
+	
 }
 

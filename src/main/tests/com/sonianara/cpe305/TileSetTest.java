@@ -1,22 +1,22 @@
+package com.sonianara.cpe305;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import source.Letter;
-import source.RandomLetters;
 import java.util.*;
 
-public class RandomLettersTest {
+public class TileSetTest {
 	
 	/**
 	 * test getting letter value from RandomLetters
 	 */
 	@Test
 	public void TestGetLetterValueGetCorrectValues() {
-		assertEquals(1, RandomLetters.getLetterValue('a'));
-		assertEquals(3, RandomLetters.getLetterValue('b'));
-		assertEquals(3, RandomLetters.getLetterValue('c'));
-		assertEquals(2, RandomLetters.getLetterValue('d'));
+		assertEquals(1, TileSet.getLetterValue('a'));
+		assertEquals(3, TileSet.getLetterValue('b'));
+		assertEquals(3, TileSet.getLetterValue('c'));
+		assertEquals(2, TileSet.getLetterValue('d'));
 		
 	}
 	/**
@@ -25,8 +25,8 @@ public class RandomLettersTest {
 	 */	
 	@Test
 	public void TestGetFullSetNotNull() {
-		RandomLetters randomLetters = new RandomLetters();
-		ArrayList<Letter> fullSet = randomLetters.getFullSet();
+		TileSet randomLetters = new TileSet();
+		ArrayList<LetterTile> fullSet = randomLetters.getFullSet();
 		assertNotNull(fullSet);	
 		
 	}
@@ -38,10 +38,15 @@ public class RandomLettersTest {
 	 */
 	@Test
 	public void TestGetFullSetGetLetterChar() {
-		RandomLetters randomLetters = new RandomLetters();
-		for (Letter letter : randomLetters.getFullSet()) {
+		TileSet randomLetters = new TileSet();
+		for (LetterTile letter : randomLetters.getFullSet()) {
 			assertTrue(letter.getLetter() >= 0);
 		}
 	}
 
+	
+	public static void main(String [] args) {
+    org.junit.runner.JUnitCore.main("TileSetTest");
+	}
+	
 }

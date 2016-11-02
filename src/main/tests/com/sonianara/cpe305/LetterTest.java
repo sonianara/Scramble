@@ -1,25 +1,25 @@
+package com.sonianara.cpe305;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import source.Letter;
 
 public class LetterTest {
 
 	@Test
 	public void TestLetterNotNull() {
-		Letter letter = new Letter('a');
+		LetterTile letter = new LetterTile('a');
 		assertNotNull(letter);
 	}
 	
 	@Test
 	public void TestLetterGetLetter() {
-		Letter letter = new Letter('a');
-		Letter letter2 = new Letter('b');
-		Letter letter3 = new Letter('c');
-		Letter letter4 = new Letter('d');
-		Letter letter5 = new Letter('e');
-		Letter letter6 = new Letter('f');
+		LetterTile letter = new LetterTile('a');
+		LetterTile letter2 = new LetterTile('b');
+		LetterTile letter3 = new LetterTile('c');
+		LetterTile letter4 = new LetterTile('d');
+		LetterTile letter5 = new LetterTile('e');
+		LetterTile letter6 = new LetterTile('f');
 		
 		assertEquals('a', letter.getLetter());
 		assertEquals('b', letter2.getLetter());
@@ -32,12 +32,12 @@ public class LetterTest {
 
 	@Test
 	public void TestLetterGetPointValue() {
-		Letter letter = new Letter('a');
-		Letter letter2 = new Letter('b');
-		Letter letter3 = new Letter('c');
-		Letter letter4 = new Letter('d');
-		Letter letter5 = new Letter('e');
-		Letter letter6 = new Letter('f');
+		LetterTile letter = new LetterTile('a');
+		LetterTile letter2 = new LetterTile('b');
+		LetterTile letter3 = new LetterTile('c');
+		LetterTile letter4 = new LetterTile('d');
+		LetterTile letter5 = new LetterTile('e');
+		LetterTile letter6 = new LetterTile('f');
 		
 		assertEquals(1, letter.getPointValue());
 		assertEquals(3, letter2.getPointValue());
@@ -46,5 +46,9 @@ public class LetterTest {
 		assertEquals(1, letter5.getPointValue());
 		assertEquals(4, letter6.getPointValue());
 		
+	}
+	
+	public static void main(String [] args) {
+    org.junit.runner.JUnitCore.main("LetterTest");
 	}
 }
