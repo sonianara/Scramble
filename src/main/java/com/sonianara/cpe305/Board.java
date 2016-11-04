@@ -14,21 +14,25 @@ public class Board {
 		return 1;
 	}
 
-	public int setWidth() {
+	public int setWidth(int newWidth) {
 		return 1;
 	}
 
-	public int setHeight() {
+	public int setHeight(int newHeight) {
 		return 1;
 	}
 
 	public boolean isEmpty() {
 		return false;
 	}
+	
+	
+	//create a 20x20 board
+	public void createBoard() {
+		
+	}
 
 	public void putLetterOnBoard(Tile t) {
 
 	}
-
-	
 }
