@@ -3,11 +3,17 @@ package com.sonianara.cpe305;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.event.ActionEvent;
@@ -37,8 +43,7 @@ public class Main extends Application {
      TextField thirdPlayerTxt = new TextField();
      Label fourthPlayerLabel = new Label("Player 4");
      TextField fourthPlayerTxt = new TextField();
-     Label errorLabel = new Label("");
-     
+     Label errorLabel = new Label("");     
      Button letsPlayBtn = new Button("Let's Play !");
 
      GridPane.setMargin(scrambleLabel, new Insets(10));
@@ -67,10 +72,35 @@ public class Main extends Application {
      GridPane.setColumnSpan(errorLabel, 2);
      GridPane.setColumnSpan(letsPlayBtn, 2);
      
+     letsPlayBtn.setOnAction(new EventHandler<ActionEvent>() {
+       @Override 
+       public void handle(ActionEvent event) {
+      	 Stage secondStage = new Stage();
+      	 Label l = new Label("Player 1's Turn");
+      	 //int c[][] = new int[15][15];
+         GridPane gp = new GridPane();
+         //Pane pane = new Pane();
+         for (int i = 0; i < 15; i++) {
+        	 for (int j = 0; j < 15; j++) {
+        		 //[i][j] = 5;
+        	 }
+         }
+         BorderPane bp = new BorderPane();
+         bp.setCenter(gp);
+         bp.setBottom(l);
+         Scene scene = new Scene(bp, 600, 500);
+         secondStage.setTitle("Scramble");
+         secondStage.setScene(scene);
+         secondStage.show();
+       }
+     });
+     
      Scene firstScene = new Scene(grid);
      primaryStage.setScene(firstScene);
      primaryStage.show();
 	}
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

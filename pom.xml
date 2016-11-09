@@ -31,4 +31,17 @@
   		<scope>test</scope>
   	</dependency>
   </dependencies>
+  <profiles>
+    <profile> 
+      <id>sonar</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <sonar.host.url>
+          http://smartr.cs.hm.edu:9000
+        </sonar.host.url>
+      </properties>
+    </profile>
+  </profiles>
 </project>
