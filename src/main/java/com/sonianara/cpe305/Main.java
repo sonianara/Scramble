@@ -34,6 +34,10 @@ public class Main extends Application {
 		 GridPane grid = new GridPane();
      grid.setPadding(new Insets(20));
 
+
+
+
+
      Label scrambleLabel = new Label("Welcome to Scramble");
      Label firstPlayerLabel = new Label("Player 1");
      TextField firstPlayerTxt = new TextField();
