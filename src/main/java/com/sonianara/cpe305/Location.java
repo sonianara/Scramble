@@ -2,14 +2,22 @@ package com.sonianara.cpe305;
 
 public class Location {
 	
-	private int x;
-	private int y;
+	private int[] coords = new int[2];
 
-	public void getLocation() {
-
+	public Location() {
+		coords = this.coords;
 	}
 
-	public void setLocation() {
+	public int getXLocation() {
+		return coords[0];
+	}
 	
+	public int getYLocation() {
+		return coords[1];
+	}
+
+	public void setLocation(int x, int y) {
+		coords[0] = x;
+		coords[1] = y;
 	}
 }

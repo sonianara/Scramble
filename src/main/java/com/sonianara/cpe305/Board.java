@@ -6,6 +6,11 @@ public class Board {
 	private int height;
 	private int width;
 
+	public Board(int height, int width) {
+		this.height = height;
+		this.width = width;
+		this.gameBoard = gameBoard;
+	}
 	public int getHeight() {
 		return this.height;
 	}
