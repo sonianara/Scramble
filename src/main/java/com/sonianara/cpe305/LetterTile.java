@@ -1,7 +1,7 @@
 package com.sonianara.cpe305;
 
 
-public class LetterTile implements Tile {
+public class LetterTile {
 	private char letter;
 	private int pointValue;
 	
@@ -12,6 +12,10 @@ public class LetterTile implements Tile {
 	
 	public char getLetter() {
 		return letter;
+	}
+	
+	public void setLetter(char newLetter) {
+		letter = newLetter;
 	}
 	
 	public int getPointValue() {

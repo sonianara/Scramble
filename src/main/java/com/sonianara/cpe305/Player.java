@@ -1,47 +1,63 @@
 package com.sonianara.cpe305;
 
-import java.util.List;
-
+import java.util.ArrayList;
 
 public class Player {
 	
 	private String name;
 	private int points;
-	private List<LetterTile> playerSet;
-	private List<Action> playerActions;
-
+	private ArrayList<LetterTile> playerSet;
+	
+	public Player() {
+		
+	}
+	
+	public void addPoints(int val) {
+		points += val;
+	}
 
 	public int getPoints() {
-		return 1;
+		return points;
 	}
 
 	public String getName() {
-		return "";
+		return name;
 	}	
-
-	public void setPoints() {
-
+	
+	public boolean hasName() {
+		if (getName() != "" || getName() != null) {
+			return true;
+		}
+		return false;
 	}
 
-	public void setName() {
-
+	public void setPoints(int newPoints) {
+		points = newPoints;
 	}
 
-	//return a list of letters
-	public void getPlayerLetters() {
-		
-	}
-
-	public void addPoints(int val) {
-
-	}
-
-	public void addMove(Action action) {
-
+	public void setName(String newName) {
+		name = newName;
 	}
 	
-	//return an Action
-	public void getRecentMove() {
+	public void setPlayerSet(ArrayList<LetterTile> newSet) {
+		playerSet = newSet;
+	}
+	
+	public ArrayList<LetterTile> getPlayerSet() {
+		return playerSet;
+	}
+	
+	public void printPlayerSet(ArrayList<LetterTile> playerSet) {
+		for (LetterTile lt: playerSet) {
+			System.out.print(lt.getLetter());
+		}
+	}
+	
+	public int getNumLetters() {
+		return playerSet.size();
+	}
 
+	public char getOneLetter(ArrayList<LetterTile> playerSet) {
+		return (playerSet.remove(0)).getLetter();
 	}
 }

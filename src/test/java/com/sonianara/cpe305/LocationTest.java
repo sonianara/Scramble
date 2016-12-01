@@ -11,14 +11,14 @@ public class LocationTest {
 	
 	@Test
 	public void testLocationX() {
-		Location loc = new Location();
+		Location loc = new Location(5, 3);
 		loc.setLocation(5, 3);
-		assertEquals(5, loc.getXLocation());
+		assertEquals(5, loc.getX());
 	}
 	
 	public void testLocationY() {
-		Location loc = new Location();
+		Location loc = new Location(0, 10);
 		loc.setLocation(0, 10);
-		assertEquals(10, loc.getYLocation());
+		assertEquals(10, loc.getY());
 	}
 }

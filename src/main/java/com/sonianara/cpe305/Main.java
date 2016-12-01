@@ -1,18 +1,17 @@
 package com.sonianara.cpe305;
+ 
 	
+import java.util.ArrayList;
+
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.beans.binding.BooleanBinding;
 import javafx.stage.Stage;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -20,92 +19,432 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.control.TextFormatter;
 
 public class Main extends Application {
-	@Override
-	public void start(Stage primaryStage) {
-		 GridPane grid = new GridPane();
-     grid.setPadding(new Insets(20));
+	
+	Player p1 = new Player();
+	Player p2 = new Player();
+	Player p3 = new Player();
+	Player p4 = new Player();
+	Label[] scoreLabels = new Label[5];
+	Button[] buttonRack = new Button[7];
+	ArrayList<Player> playerArray = new ArrayList<Player>();
+	TextField[][] squares = new TextField[15][15];
+	Board newBoard = new Board(15, 15);
+	Board previousBoard = new Board(15, 15);
+	Game game;
+	private boolean p3Flag = false;
+	private boolean p4Flag = false;
+	int numTurns = 0;
 
+	
+	 
+	 /*  The "WELCOME TO SCRAMBLE" Screen	*/
+	 
+	
+	public void start(final Stage primaryStage) {
+		newBoard.createBoard();
+		previousBoard.createBoard();
+		
+		primaryStage.setTitle("Scramble");
+		Button beginButton = new Button();
+		beginButton.setText("Begin");
+		changeTexts(beginButton);
+		Label welcomeLabel = new Label("Welcome to Scramble");
+		welcomeLabel.setFont(new Font("Cambria", 75));
+		beginButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				beginButtonClicked(primaryStage);
+			}
+		});	
+		
+		StackPane root = new StackPane();
+		root.setStyle("-fx-background-color: transparent;");
+		root.getChildren().addAll(beginButton, welcomeLabel);
+		root.setPadding(new Insets(100, 0, 0, 0));
+		StackPane.setAlignment(beginButton, Pos.CENTER);
+		StackPane.setAlignment(welcomeLabel, Pos.TOP_CENTER);
+		primaryStage.setScene(new Scene(root, 800, 800, Color.LIGHTSKYBLUE));
+		primaryStage.show();
+	} 
+	
 
+	/*
+	 *  The screen to allow players to type their names 
+	 */
+	
+	public void beginButtonClicked(final Stage primaryStage) {
+		StackPane sp = new StackPane();
+		sp.setStyle("-fx-background-color: transparent;");
+		GridPane grid = new GridPane();
+		grid.setStyle("-fx-background-color: transparent;");
+		Button letsPlayBtn = new Button("Let's Play !");
 
+		Label firstPlayerLabel = new Label("Player 1");
+    final TextField firstPlayerTxt = new TextField();
+    Label secondPlayerLabel = new Label("Player 2");
+    final TextField secondPlayerTxt = new TextField();
+    Label thirdPlayerLabel = new Label("Player 3");
+    final TextField thirdPlayerTxt = new TextField();
+    Label fourthPlayerLabel = new Label("Player 4");
+    final TextField fourthPlayerTxt = new TextField();
+    Label errorLabel = new Label("");   
+    Label l = new Label("Please enter player names:");
+    
+    changeTexts(firstPlayerLabel);
+    changeTexts(firstPlayerTxt);
+    changeTexts(secondPlayerLabel);
+    changeTexts(secondPlayerTxt);
+    changeTexts(thirdPlayerLabel);
+    changeTexts(thirdPlayerTxt);
+    changeTexts(fourthPlayerLabel);
+    changeTexts(fourthPlayerTxt);
+    changeTexts(l);
+    changeTexts(letsPlayBtn);
+    
+    GridPane.setMargin(firstPlayerLabel, new Insets(10));
+    GridPane.setMargin(firstPlayerTxt, new Insets(10));
+    GridPane.setMargin(secondPlayerLabel, new Insets(10));
+    GridPane.setMargin(secondPlayerTxt, new Insets(10));
+    GridPane.setMargin(thirdPlayerLabel, new Insets(10));
+    GridPane.setMargin(thirdPlayerTxt, new Insets(10));
+    GridPane.setMargin(fourthPlayerLabel, new Insets(10));
+    GridPane.setMargin(fourthPlayerTxt, new Insets(10));
+    GridPane.setMargin(letsPlayBtn, new Insets(10));
+    GridPane.setMargin(errorLabel, new Insets(10));
 
+    grid.add(l, 3, 0);
+    grid.add(firstPlayerLabel, 2, 1);
+    grid.add(firstPlayerTxt, 3, 1);
+    grid.add(secondPlayerLabel, 2, 2);
+    grid.add(secondPlayerTxt, 3, 2);
+    grid.add(thirdPlayerLabel, 2, 3);
+    grid.add(thirdPlayerTxt, 3, 3);
+    grid.add(fourthPlayerLabel, 2, 4);
+    grid.add(fourthPlayerTxt, 3, 4);
+    grid.add(errorLabel, 3, 3);
+    grid.add(letsPlayBtn, 3, 5);
+    GridPane.setColumnSpan(errorLabel, 2);
+    GridPane.setColumnSpan(letsPlayBtn, 2);
+    
+    BooleanBinding bb = new BooleanBinding() {
+    	{
+    	super.bind(firstPlayerTxt.textProperty(), secondPlayerTxt.textProperty(), 
+    							thirdPlayerTxt.textProperty(), fourthPlayerTxt.textProperty());
+    	}
+    	@Override
+    	protected boolean computeValue() {
+    		return(firstPlayerTxt.getText().isEmpty() || secondPlayerTxt.getText().isEmpty());
+    	}
+    };
+    
+    letsPlayBtn.disableProperty().bind(bb);
+  	
+   
+    letsPlayBtn.setOnAction(new EventHandler<ActionEvent>() {
+    	@Override
+    	public void handle(ActionEvent event) {
+    		
+    		game = new Game();
+    		
+    		int numPlayers = getNumPlayers(firstPlayerTxt, secondPlayerTxt, thirdPlayerTxt, fourthPlayerTxt);  
+    		
+    		if (numPlayers == 3) {
+  				p3Flag = true;
+  			}
+  			if (numPlayers == 4) {
+  				p4Flag = true;
+  			}
+  			
+    		for (int i = 0; i < numPlayers; i++) {
+    			playerArray.add(new Player());
+    		}
+    		
+    		playerArray.get(0).setName(firstPlayerTxt.getText());
+    		playerArray.get(1).setName(secondPlayerTxt.getText());
+    		playerArray.get(0).setPlayerSet(game.getTileSet().getFullSet());
+    		playerArray.get(1).setPlayerSet(game.getTileSet().getFullSet());
+    		
+    		if (p3Flag) {
+    			playerArray.get(2).setName(thirdPlayerTxt.getText());
+    			playerArray.get(2).setPlayerSet(game.getTileSet().getFullSet());
+    		}
+    		if (p4Flag) {
+    			playerArray.get(2).setName(thirdPlayerTxt.getText());
+    			playerArray.get(3).setName(fourthPlayerTxt.getText());
+    			playerArray.get(2).setPlayerSet(game.getTileSet().getFullSet());
+    			playerArray.get(3).setPlayerSet(game.getTileSet().getFullSet());
+    		}
 
-     Label scrambleLabel = new Label("Welcome to Scramble");
-     Label firstPlayerLabel = new Label("Player 1");
-     TextField firstPlayerTxt = new TextField();
-     Label secondPlayerLabel = new Label("Player 2");
-     TextField secondPlayerTxt = new TextField();
-     Label thirdPlayerLabel = new Label("Player 3");
-     TextField thirdPlayerTxt = new TextField();
-     Label fourthPlayerLabel = new Label("Player 4");
-     TextField fourthPlayerTxt = new TextField();
-     Label errorLabel = new Label("");     
-     Button letsPlayBtn = new Button("Let's Play !");
-
-     GridPane.setMargin(scrambleLabel, new Insets(10));
-     GridPane.setMargin(firstPlayerLabel, new Insets(10));
-     GridPane.setMargin(firstPlayerTxt, new Insets(10));
-     GridPane.setMargin(secondPlayerLabel, new Insets(10));
-     GridPane.setMargin(secondPlayerTxt, new Insets(10));
-     GridPane.setMargin(thirdPlayerLabel, new Insets(10));
-     GridPane.setMargin(thirdPlayerTxt, new Insets(10));
-     GridPane.setMargin(fourthPlayerLabel, new Insets(10));
-     GridPane.setMargin(fourthPlayerTxt, new Insets(10));
-     GridPane.setMargin(letsPlayBtn, new Insets(10));
-     GridPane.setMargin(errorLabel, new Insets(10));
-
-     grid.add(scrambleLabel, 3, 0);
-     grid.add(firstPlayerLabel, 2, 1);
-     grid.add(firstPlayerTxt, 3, 1);
-     grid.add(secondPlayerLabel, 2, 2);
-     grid.add(secondPlayerTxt, 3, 2);
-     grid.add(thirdPlayerLabel, 2, 3);
-     grid.add(thirdPlayerTxt, 3, 3);
-     grid.add(fourthPlayerLabel, 2, 4);
-     grid.add(fourthPlayerTxt, 3, 4);
-     grid.add(errorLabel, 3, 3);
-     grid.add(letsPlayBtn, 3, 5);
-     GridPane.setColumnSpan(errorLabel, 2);
-     GridPane.setColumnSpan(letsPlayBtn, 2);
-     
-     letsPlayBtn.setOnAction(new EventHandler<ActionEvent>() {
-       @Override 
-       public void handle(ActionEvent event) {
-      	 Stage secondStage = new Stage();
-      	 Label l = new Label("Player 1's Turn");
-      	 //int c[][] = new int[15][15];
-         GridPane gp = new GridPane();
-         //Pane pane = new Pane();
-         for (int i = 0; i < 15; i++) {
-        	 for (int j = 0; j < 15; j++) {
-        		 //[i][j] = 5;
-        	 }
-         }
-         BorderPane bp = new BorderPane();
-         bp.setCenter(gp);
-         bp.setBottom(l);
-         Scene scene = new Scene(bp, 600, 500);
-         secondStage.setTitle("Scramble");
-         secondStage.setScene(scene);
-         secondStage.show();
-       }
-     });
-     
-     Scene firstScene = new Scene(grid);
-     primaryStage.setScene(firstScene);
-     primaryStage.show();
+    		playTurn(primaryStage, playerArray.get(0));
+    	}
+    });
+    
+    grid.setAlignment(Pos.CENTER);
+    sp.getChildren().add(grid);
+    StackPane.setAlignment(grid, Pos.BOTTOM_RIGHT);
+    primaryStage.setScene(new Scene(sp, 800, 800, Color.LIGHTSKYBLUE));
+    primaryStage.show();
+	}
+	
+	public void savePreviousBoard() {
+		previousBoard = newBoard;
+	}
+	
+	public void saveNewBoard() {
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (!squares[i][j].getText().isEmpty()) {
+					char temp = squares[i][j].getText().charAt(0);
+					newBoard.setChar(temp, i, j);
+				}
+				else {
+					newBoard.setChar(' ', i, j);
+				}
+			}
+		}
+	}
+	
+	public void createJavaFXBoard(GridPane gp) {
+		System.setProperty("prism.text", "t2k");
+		for (int i = 0; i < 15; i++) {
+	   	 for (int j = 0; j < 15; j++) {
+	   		 final int finalI = i;
+	   		 final int finalJ = j;
+	   		 squares[i][j] = new TextField("");
+	   		 squares[i][j].setPrefSize(30, 30);
+	   		 squares[i][j].textProperty().addListener((ov, oldValue, newValue) -> {
+         squares[finalI][finalJ].setText(newValue.toUpperCase());
+         });
+	   		gp.add(squares[i][j], i, j);
+	   	 }
+	  }
+	}
+	
+	public void createButtons(Player p, HBox bottomRack, int numTurns) {
+		for (int i = 0; i < 7; i++) {
+			if (numTurns == 1) {
+				buttonRack[i] = new Button();
+			}
+	    ArrayList<LetterTile> playerArr = p.getPlayerSet();
+	    buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase());
+	    buttonRack[i].setMinWidth(50);
+	    buttonRack[i].setMinHeight(50);
+	    if (numTurns == 1) {
+	    	bottomRack.getChildren().add(buttonRack[i]);
+			}
+	  }		
 	}
 	
 	
+	public void playTurn(Stage primaryStage, Player p) {
+		numTurns++;
+		final int roundNumber = numTurns;
+		
+		HBox bottomRack = new HBox();
+		bottomRack.setAlignment(Pos.CENTER);
+		bottomRack.setPadding(new Insets (5, 20, 5, 20));
+		Button makeMoveButton = new Button("Make Move");
+		makeMoveButton.setAlignment(Pos.CENTER_RIGHT);		
+	
+		GridPane gp = new GridPane();
+
+		VBox scoreBox = createScoreBoard();
+		Label topHeading = new Label("It's " + p.getName() + "'s Turn!");
+		Label roundNumberLabel = new Label("Round: " + String.valueOf(roundNumber));
+		roundNumberLabel.setAlignment(Pos.CENTER_RIGHT);
+		changeTexts(topHeading);
+		gp.setPadding(new Insets(50, 50, 50, 50));
+	
+		createJavaFXBoard(gp);
+		
+		gp.setAlignment(Pos.CENTER);
+		
+		for (int i = 0; i < 15; i++) {
+      for (int j = 0; j < 15; j++) {
+          squares[i][j].setTextFormatter(new TextFormatter<String>((TextFormatter.Change change) -> {
+              String newText = change.getControlNewText();
+              if (newText.length() > 1) {
+                  return null;
+              } else {
+                  return change;
+              }
+          }));
+      }
+    }
+		
+		createButtons(p, bottomRack, numTurns);
+		
+		//savePreviousBoard();
+		
+		saveNewBoard();
+		
+		makeMoveButton.setOnAction(new EventHandler<ActionEvent>() {
+			int i = 0;
+			public void handle(ActionEvent event) {
+			
+				disableGridSquares();
+				
+				boolean valid = false;
+				
+				saveNewBoard();
+				
+				printPreviousBoard();
+				printNewBoard();
+				ArrayList<Location> newWords = game.getNewLetterLocation(previousBoard, newBoard);
+				ArrayList<String> allNewWords = game.getNewWords(newWords, newBoard);
+				for (String s: allNewWords) {
+					System.out.println("All new words: " + s);
+				}
+				ArrayList<Character> temp = game.getWord(newBoard, newWords);
+				String s = game.arraytoString(temp);
+				int pointsForWord = game.calculatePointsForWord(temp);
+				System.out.println("Number of points" + pointsForWord);
+				
+				System.out.println("Number of turns before" + numTurns);
+				
+				if (numTurns > 1) {
+					System.out.println("isAdjacent" + game.isAdjacentToAWord(newBoard, newWords));
+					System.out.println("Check validity" + game.checkValidityOfWords(allNewWords));
+					if (game.isAdjacentToAWord(newBoard, newWords) == true) {
+						valid = true;
+					}
+					if (game.checkValidityOfWords(allNewWords) == true) {
+						valid = true;
+						i++;
+					}
+				}
+				else if (numTurns == 1) {
+					System.out.println("Should go here");
+					System.out.println("Is horizontal" + game.isHorizontal(newWords));
+					System.out.println("Is vertical" + game.isVertical(newWords));
+					System.out.println("Played from rack" + game.playedFromRack(p, newWords, newBoard));
+					System.out.println("Is valid word" + game.isWord(s));
+					System.out.println("Check word: " + game.checkWord(newWords, newBoard));
+					
+				
+					if (game.isHorizontal(newWords) == true || game.isVertical(newWords) == true) {
+						valid = true;
+					}
+					if (game.playedFromRack(p, newWords, newBoard) == true) {
+						valid = true;
+					}
+					if (game.checkWord(newWords, newBoard) == true && game.playedFromRack(p, newWords, newBoard) == true) {
+						valid = true;
+						i++;
+					}
+				}
+				if (valid == true) {
+					
+					game.replenishPlayerRack(playerArray.get(i));
+					numTurns++;
+					playerArray.get(i).addPoints(pointsForWord);
+					scoreLabels[i + 1].setText(playerArray.get(i + 1).getName() + ": " + playerArray.get(i + 1).getPoints());
+					topHeading.setText("It's " + playerArray.get(i + 1).getName() + "'s Turn!");
+					roundNumberLabel.setText("Round: " + String.valueOf(roundNumber + 1));
+					System.out.println("Number of turns after" + numTurns);
+					createButtons(playerArray.get(i + 1), bottomRack, numTurns);
+				}
+				System.out.println("Final validity: " + valid);
+						
+			}	
+			
+		});
+		
+		HBox bigLayout = new HBox();
+		VBox layout = new VBox();
+		scoreBox.setStyle("-fx-background-color: transparent;");
+		scoreBox.setAlignment(Pos.CENTER_LEFT);
+		scoreBox.setPadding(new Insets(0, 0, 0, 10));
+		layout.getChildren().addAll(topHeading, roundNumberLabel, scoreBox, gp, bottomRack, makeMoveButton);
+		layout.setStyle("-fx-background-color: transparent;");
+		layout.setAlignment(Pos.CENTER);
+		bigLayout.getChildren().addAll(scoreBox, layout);
+		bigLayout.setStyle("-fx-background-color: transparent;");
+    primaryStage.setScene(new Scene(bigLayout, 800, 800, Color.LIGHTSKYBLUE));
+    primaryStage.show();
+	}
+	
+	
+	public void disableGridSquares() {
+		for (int i = 0; i < 15; i++) {
+      for (int j = 0; j < 15; j++) {
+          if (!squares[i][j].getText().isEmpty()) {
+              squares[i][j].setDisable(true);
+          }
+      }
+		}
+	}
+	
+	public void printPreviousBoard() {
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (previousBoard.getChar(i, j) != ' ') {
+					char c = previousBoard.getChar(i, j);
+					System.out.println("Previous" + c);
+				}
+			}
+		}
+	}
+	
+	
+	public VBox createScoreBoard() {
+		VBox scoreBox = new VBox();
+		scoreLabels[0] = new Label("Scores");
+		scoreLabels[0].setStyle("-fx-underline: true;");
+		changeTexts(scoreLabels[0]);
+		scoreLabels[0].setAlignment(Pos.CENTER);
+		//scoreBox.getChildren().addAll(scoreLabels[0]);
+		for (int i = 0; i < playerArray.size(); i++) {
+			scoreLabels[i] = new Label(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
+			changeTexts(scoreLabels[i]);
+			scoreBox.getChildren().addAll(scoreLabels[i]);
+		}
+		return scoreBox;
+	}
+	
+	public void printNewBoard() {
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (newBoard.getChar(i, j) != ' ') {
+					char c = newBoard.getChar(i, j);
+					System.out.println("New" + c);
+				}
+			}
+		}
+	}
+	
+	//Change the font and font size of any node
+	public void changeTexts(Node n) {
+		n.setStyle("" + "-fx-font-size: 30px;" + "-fx-font-family: Cambria;");
+	}
+	
+	//Get the number of players in the game
+	public int getNumPlayers(TextField p1, TextField p2, TextField p3, TextField p4) {
+		int numPlayers = 0;
+		if (!p1.getText().isEmpty()) {
+			numPlayers++;
+		}
+		if (!p2.getText().isEmpty()) {
+			numPlayers++;
+		}
+		if (!p3.getText().isEmpty()) {
+			numPlayers++;
+		}
+		if (!p4.getText().isEmpty()) {
+			numPlayers++;
+		}
+		return numPlayers;
+	}
+	
+		
 	public static void main(String[] args) {
 		launch(args);
 	}
 }
+
+

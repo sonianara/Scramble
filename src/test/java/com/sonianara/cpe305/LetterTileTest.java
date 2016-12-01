@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class LetterTest {
-/*
+public class LetterTileTest {
+
+	TileSet ts = new TileSet();
+	
 	@Test
 	public void TestLetterNotNull() {
 		LetterTile letter = new LetterTile('a');
@@ -50,5 +52,5 @@ public class LetterTest {
 	
 	public static void main(String [] args) {
     org.junit.runner.JUnitCore.main("LetterTest");
-	} */
+	} 
 }

@@ -2,9 +2,9 @@ package com.sonianara.cpe305;
 
 public class Driver {
 
-	
-	public static void main(String [] args) {
-      System.out.println("Testing ");
+	public static void main(String[]args) {
+		
+      System.out.println("Testing");
       
       TileSet rl = new TileSet();
       for (LetterTile l: rl.getFullSet()) {

@@ -9,16 +9,21 @@ import java.util.Random;
 /* Singleton Design Pattern: Using a class to hold all Scrabble letters & return new letters if needed
 
    This pattern is used because each player can potentially have the  same letters, 
-   but each player has their own set of letters */
+   but each player has their own set of letters 
+   
+   Only one instance of this class must be created for each game. 
+  
+ */
 
 public class TileSet {
 	private int numLetters;
-	private ArrayList<LetterTile> letters;
+	public ArrayList<LetterTile> letters;
 	private HashMap<Character, Integer> numLettersMap;
 	public static HashMap<Character, Integer> letterValueMap;
 	
 	
 	public TileSet() {
+		System.out.println("Testing");
 		numLettersMap = new HashMap<Character, Integer>();
 		letterValueMap = new HashMap<Character, Integer>();
 		letters = new ArrayList<LetterTile>();
@@ -131,6 +136,7 @@ public class TileSet {
 					letterValueMap.put(tempLetter, 10);
 					break;
 			}
+
 		}
 		//Add the two blank tiles
 		numLettersMap.put(' ', 2);
@@ -154,10 +160,7 @@ public class TileSet {
 		long seed = System.nanoTime();
 		Collections.shuffle(letters, new Random(seed));
 		
-		//Prints all randomized letters for debugging
-//		for (Letter l : letters) {
-//			System.out.print(l.getLetter());
-//		}
+	
 	}
 	
 	public static int getLetterValue(char letter) {
@@ -184,16 +187,27 @@ public class TileSet {
 		}
 		return newLetters;
 	}
+	
 
 	public boolean isEmpty(ArrayList<LetterTile> letterSet) {
+			if (letterSet.isEmpty()) {
+				return true;
+			}
 			return false;
+	}
+	
+	public ArrayList<LetterTile> getBagOfLetters() {
+		return letters;
 	}
 
 	public boolean contains() {
 		return false;
 	}
+	
+	public int getNumLettersInBag() {
+		return letters.size();
+	}
 
-	//return an array of letter tiles
 	public ArrayList<LetterTile> removeRandomLetters() {
 		return letters;
 	}
