@@ -343,7 +343,7 @@ public void playTurn(Stage primaryStage, Player p) {
 				game.replenishPlayerRack(playerArray.get(i));
 				numTurns++;
 				playerArray.get(i).addPoints(pointsForWord);
-				scoreLabels[i + 1].setText(playerArray.get(i + 1).getName() + ": " + playerArray.get(i + 1).getPoints());
+				scoreLabels[i + 1].setText(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
 				topHeading.setText("It's " + playerArray.get(i + 1).getName() + "'s Turn!");
 				roundNumberLabel.setText("Round: " + String.valueOf(roundNumber + 1));
 				System.out.println("Number of turns after" + numTurns);
