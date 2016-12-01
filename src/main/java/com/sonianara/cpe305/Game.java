@@ -44,11 +44,24 @@ public class Game {
     }
     return true;
   }
+  
+  public void printGameBoard(Board board) {
+    for (int i = 0; i < 15; i++) {
+      for (int j = 0; j < 15; j++) {
+        if (Character.isAlphabetic(board.getChar(i, j))) {
+          System.out.println(board.getChar(i, j));
+        }
+      }
+    }
+  }
 
   public ArrayList<String> getNewWords(ArrayList<Location> newLetters, Board gameBoard) {
-
+    System.out.println("Printing in method");
+    printGameBoard(gameBoard);
     ArrayList<String> allNewWords = new ArrayList<String>();
 
+    System.out.println("is horizontal: " + isHorizontal(newLetters));
+    
     if (isHorizontal(newLetters)) {
       for (int i = 0; i < newLetters.size(); i++) {
         if (i == newLetters.size() - 1) {
@@ -105,6 +118,7 @@ public class Game {
             allNewWords.add(str);
           }
         }
+        //if (i == 0 || i == newLetters.size() - 1) {
         if (i == 0) {
           if (bordersBottom(gameBoard, newLetters.get(i))) {
             ArrayList<Location> arrLoc = traverseDown(newLetters.get(i), gameBoard);
@@ -117,6 +131,8 @@ public class Game {
     }
     return allNewWords;
   }
+  
+  
 
   public ArrayList<Location> traverseUp(Location loc, Board gameBoard) {
     int i = 0;
@@ -173,35 +189,36 @@ public class Game {
   // tested
   public int calculatePointsForWord(ArrayList<Character> charArray) {
     int totalPoints = 0;
-
     for (int i = 0; i < charArray.size(); i++) {
       totalPoints += TileSet.getLetterValue(charArray.get(i));
     }
+    
     return totalPoints;
   }
 
   public boolean isHorizontal(ArrayList<Location> locArray) {
     for (int i = 0; i < locArray.size() - 1; i++) {
-      if (locArray.get(i).getX() == (locArray.get(i + 1).getX() - 1)
-          || (locArray.get(i).getX() == (locArray.get(i + 1).getX() + 1))) {
-        if (locArray.get(i).getY() == locArray.get(i + 1).getY()) {
-          return true;
+      //if (locArray.get(i).getX() == (locArray.get(i + 1).getX() - 1)
+       //   || (locArray.get(i).getX() == (locArray.get(i + 1).getX() + 1))) {
+        if (!(locArray.get(i).getY() == locArray.get(i + 1).getY())) {
+          return false;
         }
-      }
+     // }
     }
-    return false;
+    return true;
   }
 
   public boolean isVertical(ArrayList<Location> locArray) {
     for (int i = 0; i < locArray.size() - 1; i++) {
-      if (locArray.get(i).getX() == locArray.get(i + 1).getX()) {
-        if (locArray.get(i).getY() == (locArray.get(i + 1).getY() - 1)
-            || (locArray.get(i).getY() == (locArray.get(i + 1).getY() + 1))) {
-          return true;
-        }
+      if (!(locArray.get(i).getX() == locArray.get(i + 1).getX())) {
+        //if (locArray.get(i).getY() == (locArray.get(i + 1).getY() - 1)
+        //    || (locArray.get(i).getY() == (locArray.get(i + 1).getY() + 1))) {
+        //  return true;
+        //}
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   public ArrayList<Location> traverseLeftCoordinates(ArrayList<Location> arrLoc, Board wholeBoard) {
@@ -325,31 +342,35 @@ public class Game {
   }
 
   public boolean bordersLeft(Board previousGameBoard, Location coordinates) {
-    if (previousGameBoard.getChar(coordinates.getX() - 1, coordinates.getY()) != ' ') {
-      return true;
+    char c = previousGameBoard.getChar(coordinates.getX() - 1, coordinates.getY());
+    if (Character.isAlphabetic(c) == false) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   public boolean bordersRight(Board previousGameBoard, Location coordinates) {
-    if (previousGameBoard.getChar(coordinates.getX() + 1, coordinates.getY()) != ' ') {
-      return true;
+    char c = previousGameBoard.getChar(coordinates.getX() + 1, coordinates.getY());
+    if (Character.isAlphabetic(c) == false)  {
+      return false;
     }
-    return false;
+    return true;
   }
 
   public boolean bordersBottom(Board previousGameBoard, Location coordinates) {
-    if (previousGameBoard.getChar(coordinates.getX(), coordinates.getY() - 1) != ' ') {
-      return true;
+    char c = previousGameBoard.getChar(coordinates.getX(), coordinates.getY() - 1);
+    if (Character.isAlphabetic(c) == false) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   public boolean bordersTop(Board previousGameBoard, Location coordinates) {
-    if (previousGameBoard.getChar(coordinates.getX(), coordinates.getY() + 1) != ' ') {
-      return true;
+    char c = previousGameBoard.getChar(coordinates.getX(), coordinates.getY() + 1);
+    if (Character.isAlphabetic(c) == false) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   // if the word is vertical, get the coordinate of the top-most letter

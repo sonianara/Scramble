@@ -341,6 +341,8 @@ public class Main extends Application {
           game.replenishPlayerRack(playerArray.get(i));
           numTurns++;
           playerArray.get(i).addPoints(pointsForWord);
+          scoreLabels[i].
+          setText(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
         
           if (i + 1 == playerArray.size()) {
             i = 0;
@@ -348,8 +350,8 @@ public class Main extends Application {
           else {
             i++;
           }
-          scoreLabels[i].
-            setText(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
+          
+          
           topHeading.setText("It's " + playerArray.get(i).getName() + "'s Turn!");
           roundNumberLabel.setText("Round: " + String.valueOf(roundNumber));
           createButtons(playerArray.get(i), bottomRack, numTurns);

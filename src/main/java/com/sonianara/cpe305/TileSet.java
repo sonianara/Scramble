@@ -162,8 +162,9 @@ public class TileSet {
 
   public static int getLetterValue(char letter) {
     int val = 0;
-    if (letterValueMap.containsKey(letter)) {
-      val = letterValueMap.get(letter);
+    char c = Character.toLowerCase(letter);
+    if (letterValueMap.containsKey(c)) {
+      val = letterValueMap.get(c);
     }
     return val;
   }
