@@ -6,56 +6,55 @@ package com.sonianara.cpe305;
  * @version October 20, 2016
  */
 
-
 import java.io.File;
 import java.util.Scanner;
 import java.util.HashSet;
 
 public class DictionarySearch {
-	
-	// The dictionary for the application.
-	HashSet<String> dictionary = new HashSet<String>();
 
-	public DictionarySearch(String fileName) {
-		createDictionary(fileName);
-	}
+  // The dictionary for the application.
+  HashSet<String> dictionary = new HashSet<String>();
 
-   /**
-    * @param fileName The file to open
-    */
-	public void createDictionary(String fileName) {
+  public DictionarySearch(String fileName) {
+    createDictionary(fileName);
+  }
 
-		// Makes sure file exists
-		try {
-			Scanner scanner = new Scanner(new File(fileName));
+  /**
+   * @param fileName
+   *          The file to open
+   */
+  public void createDictionary(String fileName) {
 
-			while (scanner.hasNextLine()) {
-			   Scanner scanner2 = new Scanner(scanner.nextLine());
-			   while (scanner2.hasNext()) {
-			      String s = scanner2.next();
-				   dictionary.add(s);
-			   }
-			   scanner2.close();
-			}
-			scanner.close();
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
-	
-	}
+    // Makes sure file exists
+    try {
+      Scanner scanner = new Scanner(new File(fileName));
 
-   /**
-    * @return The dictionary for the application
-    */
-	public HashSet<String> getDictionary() {
-		return dictionary;
-	}
+      while (scanner.hasNextLine()) {
+        Scanner scanner2 = new Scanner(scanner.nextLine());
+        while (scanner2.hasNext()) {
+          String s = scanner2.next();
+          dictionary.add(s);
+        }
+        scanner2.close();
+      }
+      scanner.close();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
 
-   /**
-    * @return Whether words exists in dictionary
-    */
-	public boolean contains(String word) {
-		return dictionary.contains(word);
-	}
+  }
+
+  /**
+   * @return The dictionary for the application
+   */
+  public HashSet<String> getDictionary() {
+    return dictionary;
+  }
+
+  /**
+   * @return Whether words exists in dictionary
+   */
+  public boolean contains(String word) {
+    return dictionary.contains(word);
+  }
 }
