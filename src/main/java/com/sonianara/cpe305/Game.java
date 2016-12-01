@@ -49,31 +49,70 @@ public class Game {
 
     ArrayList<String> allNewWords = new ArrayList<String>();
 
-    for (int i = 0; i < newLetters.size(); i++) {
-
-      if (bordersRight(gameBoard, newLetters.get(i))) {
-        ArrayList<Location> arrLoc = traverseRight(newLetters.get(i), gameBoard);
-        ArrayList<Character> word = getWord(gameBoard, arrLoc);
-        String str = arraytoString(word);
-        allNewWords.add(str);
+    if (isHorizontal(newLetters)) {
+      for (int i = 0; i < newLetters.size(); i++) {
+        if (i == newLetters.size() - 1) {
+          if (bordersRight(gameBoard, newLetters.get(i))) {
+            ArrayList<Location> arrLoc = traverseRight(newLetters.get(i), gameBoard);
+            ArrayList<Character> word = getWord(gameBoard, arrLoc);
+            String str = arraytoString(word);
+            allNewWords.add(str);
+          }
+        }
+        if (i == 0) {
+          if (bordersLeft(gameBoard, newLetters.get(i))) {
+            ArrayList<Location> arrLoc = traverseLeft(newLetters.get(i), gameBoard);
+            ArrayList<Character> word = getWord(gameBoard, arrLoc);
+            String str = arraytoString(word);
+            allNewWords.add(str);
+          }
+        }
+        if (bordersTop(gameBoard, newLetters.get(i))) {
+          ArrayList<Location> arrLoc = traverseUp(newLetters.get(i), gameBoard);
+          ArrayList<Character> word = getWord(gameBoard, arrLoc);
+          String str = arraytoString(word);
+          allNewWords.add(str);
+        }
+        if (bordersBottom(gameBoard, newLetters.get(i))) {
+          ArrayList<Location> arrLoc = traverseDown(newLetters.get(i), gameBoard);
+          ArrayList<Character> word = getWord(gameBoard, arrLoc);
+          String str = arraytoString(word);
+          allNewWords.add(str);
+        }
       }
-      if (bordersLeft(gameBoard, newLetters.get(i))) {
-        ArrayList<Location> arrLoc = traverseLeft(newLetters.get(i), gameBoard);
-        ArrayList<Character> word = getWord(gameBoard, arrLoc);
-        String str = arraytoString(word);
-        allNewWords.add(str);
-      }
-      if (bordersTop(gameBoard, newLetters.get(i))) {
-        ArrayList<Location> arrLoc = traverseUp(newLetters.get(i), gameBoard);
-        ArrayList<Character> word = getWord(gameBoard, arrLoc);
-        String str = arraytoString(word);
-        allNewWords.add(str);
-      }
-      if (bordersBottom(gameBoard, newLetters.get(i))) {
-        ArrayList<Location> arrLoc = traverseDown(newLetters.get(i), gameBoard);
-        ArrayList<Character> word = getWord(gameBoard, arrLoc);
-        String str = arraytoString(word);
-        allNewWords.add(str);
+    }
+    else if (isVertical(newLetters)) {
+      for (int i = 0; i < newLetters.size(); i++) {
+        if (bordersRight(gameBoard, newLetters.get(i))) {
+          ArrayList<Location> arrLoc = traverseRight(newLetters.get(i), gameBoard);
+          ArrayList<Character> word = getWord(gameBoard, arrLoc);
+          String str = arraytoString(word);
+          allNewWords.add(str);
+        }
+      
+        if (bordersLeft(gameBoard, newLetters.get(i))) {
+          ArrayList<Location> arrLoc = traverseLeft(newLetters.get(i), gameBoard);
+          ArrayList<Character> word = getWord(gameBoard, arrLoc);
+          String str = arraytoString(word);
+          allNewWords.add(str);
+        }
+      
+        if (i == newLetters.size() - 1) {
+          if (bordersTop(gameBoard, newLetters.get(i))) {
+            ArrayList<Location> arrLoc = traverseUp(newLetters.get(i), gameBoard);
+            ArrayList<Character> word = getWord(gameBoard, arrLoc);
+            String str = arraytoString(word);
+            allNewWords.add(str);
+          }
+        }
+        if (i == 0) {
+          if (bordersBottom(gameBoard, newLetters.get(i))) {
+            ArrayList<Location> arrLoc = traverseDown(newLetters.get(i), gameBoard);
+            ArrayList<Character> word = getWord(gameBoard, arrLoc);
+            String str = arraytoString(word);
+            allNewWords.add(str);
+          }
+        }
       }
     }
     return allNewWords;

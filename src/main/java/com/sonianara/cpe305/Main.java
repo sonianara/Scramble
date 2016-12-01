@@ -38,6 +38,8 @@ public class Main extends Application {
   private boolean p3Flag = false;
   private boolean p4Flag = false;
   int numTurns = 0;
+  int roundNumber;
+  int i = 0;
 
   /* The "WELCOME TO SCRAMBLE" Screen */
 
@@ -237,8 +239,8 @@ public class Main extends Application {
 
   public void playTurn(Stage primaryStage, Player p) {
     numTurns++;
-    final int roundNumber = numTurns;
-
+    roundNumber = 1;
+    
     HBox bottomRack = new HBox();
     bottomRack.setAlignment(Pos.CENTER);
     bottomRack.setPadding(new Insets(5, 20, 5, 20));
@@ -273,23 +275,27 @@ public class Main extends Application {
 
     createButtons(p, bottomRack, numTurns);
 
-    // savePreviousBoard();
-
     saveNewBoard();
 
     makeMoveButton.setOnAction(new EventHandler<ActionEvent>() {
-      int i = 0;
+      
 
       public void handle(ActionEvent event) {
-
+   
+        System.out.println("value of i first" + i);
         disableGridSquares();
 
-        boolean valid = false;
-
-        saveNewBoard();
-
+        if (numTurns != 1) {
+          savePreviousBoard();
+        }
         printPreviousBoard();
+        
+        boolean valid = false;
+ 
+        saveNewBoard();
+        
         printNewBoard();
+        
         ArrayList<Location> newWords = game.getNewLetterLocation(previousBoard, newBoard);
         ArrayList<String> allNewWords = game.getNewWords(newWords, newBoard);
         for (String s : allNewWords) {
@@ -298,27 +304,25 @@ public class Main extends Application {
         ArrayList<Character> temp = game.getWord(newBoard, newWords);
         String s = game.arraytoString(temp);
         int pointsForWord = game.calculatePointsForWord(temp);
-        System.out.println("Number of points" + pointsForWord);
-
-        System.out.println("Number of turns before" + numTurns);
 
         if (numTurns > 1) {
+          System.out.println("Number of points" + pointsForWord);
           System.out.println("isAdjacent" + game.isAdjacentToAWord(newBoard, newWords));
           System.out.println("Check validity" + game.checkValidityOfWords(allNewWords));
-          if (game.isAdjacentToAWord(newBoard, newWords) == true) {
-            valid = true;
-          }
-          if (game.checkValidityOfWords(allNewWords) == true) {
-            valid = true;
-            i++;
-          }
-        } else if (numTurns == 1) {
           System.out.println("Should go here");
           System.out.println("Is horizontal" + game.isHorizontal(newWords));
           System.out.println("Is vertical" + game.isVertical(newWords));
           System.out.println("Played from rack" + game.playedFromRack(p, newWords, newBoard));
           System.out.println("Is valid word" + game.isWord(s));
           System.out.println("Check word: " + game.checkWord(newWords, newBoard));
+          if (game.isAdjacentToAWord(newBoard, newWords) == true) {
+            valid = true;
+          }
+          if (game.checkValidityOfWords(allNewWords) == true) {
+            valid = true;
+            
+          }
+        } else if (numTurns == 1) {
 
           if (game.isHorizontal(newWords) == true || game.isVertical(newWords) == true) {
             valid = true;
@@ -329,21 +333,27 @@ public class Main extends Application {
           if (game.checkWord(newWords, newBoard) == true
               && game.playedFromRack(p, newWords, newBoard) == true) {
             valid = true;
-            i++;
+           
           }
         }
         if (valid == true) {
+          roundNumber++;
           game.replenishPlayerRack(playerArray.get(i));
           numTurns++;
           playerArray.get(i).addPoints(pointsForWord);
-          scoreLabels[i + 1]
-              .setText(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
-          topHeading.setText("It's " + playerArray.get(i + 1).getName() + "'s Turn!");
-          roundNumberLabel.setText("Round: " + String.valueOf(roundNumber + 1));
-          System.out.println("Number of turns after" + numTurns);
-          createButtons(playerArray.get(i + 1), bottomRack, numTurns);
+        
+          if (i + 1 == playerArray.size()) {
+            i = 0;
+          }
+          else {
+            i++;
+          }
+          scoreLabels[i].
+            setText(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
+          topHeading.setText("It's " + playerArray.get(i).getName() + "'s Turn!");
+          roundNumberLabel.setText("Round: " + String.valueOf(roundNumber));
+          createButtons(playerArray.get(i), bottomRack, numTurns);
         }
-        System.out.println("Final validity: " + valid);
       }
     });
 
