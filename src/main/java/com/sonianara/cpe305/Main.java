@@ -298,14 +298,17 @@ public class Main extends Application {
         
         ArrayList<Location> newWords = game.getNewLetterLocation(previousBoard, newBoard);
         ArrayList<String> allNewWords = game.getNewWords(newWords, newBoard);
+        /*
         for (String s : allNewWords) {
           System.out.println("All new words: " + s);
         }
+        */
         ArrayList<Character> temp = game.getWord(newBoard, newWords);
         String s = game.arraytoString(temp);
         int pointsForWord = game.calculatePointsForWord(temp);
 
         if (numTurns > 1) {
+          /*
           System.out.println("Number of points" + pointsForWord);
           System.out.println("isAdjacent" + game.isAdjacentToAWord(newBoard, newWords));
           System.out.println("Check validity" + game.checkValidityOfWords(allNewWords));
@@ -315,6 +318,7 @@ public class Main extends Application {
           System.out.println("Played from rack" + game.playedFromRack(p, newWords, newBoard));
           System.out.println("Is valid word" + game.isWord(s));
           System.out.println("Check word: " + game.checkWord(newWords, newBoard));
+          */
           if (game.isAdjacentToAWord(newBoard, newWords) == true) {
             valid = true;
           }
@@ -350,8 +354,6 @@ public class Main extends Application {
           else {
             i++;
           }
-          
-          
           topHeading.setText("It's " + playerArray.get(i).getName() + "'s Turn!");
           roundNumberLabel.setText("Round: " + String.valueOf(roundNumber));
           createButtons(playerArray.get(i), bottomRack, numTurns);
