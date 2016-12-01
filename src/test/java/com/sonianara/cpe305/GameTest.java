@@ -12,6 +12,7 @@ public class GameTest {
   @Test
   public void TestGame() {
 
+    /*
     Board previousBoard = new Board(15, 15);
     Board currentBoard = new Board(15, 15);
     Board newBoard = new Board(15, 15);
@@ -40,6 +41,8 @@ public class GameTest {
     for (int i = 0; i < myWords.size(); i++) {
       System.out.println("word: " + myWords.get(i));
     }
+    */
+    
     //assertEquals(false, game.checkValidityOfWords(myWords));
 
     assertEquals(true, true);
