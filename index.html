@@ -45,6 +45,21 @@
 <p><img src="https://github.com/cpe305/fall2016-project-sonianara/blob/master/Class%20Diagram.png?raw=true" alt=""></p>
 
 <h3>
+<a id="design-patterns" class="anchor" href="#design-patterns" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Design Patterns</h3>
+
+<ul>
+<li>Singleton pattern: TileSet</li>
+</ul>
+
+<p>The TileSet class represents all the potential Scrabble letter tiles from which players receive random letters. There ca only be one instance of this class for each game and it is a shared resource among several classes.  </p>
+
+<ul>
+<li>Singleton pattern: DictionarySearch class</li>
+</ul>
+
+<p>The DictionarySearch class represents the entire Oxford English dictionary. This class primarily reads in a text file containing all the words in the dictionary and allows other classes to check if a word exists in the dictionary. </p>
+
+<h3>
 <a id="walk-through" class="anchor" href="#walk-through" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Walk-through</h3>
 
 <p>The welcome screen looks like the following: </p>
@@ -58,6 +73,17 @@
 <p>When at least two players have entered their names and clicked "Let's Play!", the board is displayed: </p>
 
 <p><img src="https://github.com/cpe305/fall2016-project-sonianara/blob/master/Game.png?raw=true" alt=""></p>
+
+<h3>
+<a id="key-takeaways" class="anchor" href="#key-takeaways" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Key Takeaways</h3>
+
+<ul>
+<li>Build and manage to a project schedule</li>
+<li>Test frequently and early on </li>
+<li>Brainstorm architecture and design patterns before starting to write any code</li>
+<li>Document code as the project is progressing</li>
+<li>If there are too many bugs and print statements don't help, it may be a good time to refactor</li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/cpe305/fall2016-project-sonianara">Scramble</a> is maintained by <a href="https://github.com/cpe305">cpe305</a>.</span>
