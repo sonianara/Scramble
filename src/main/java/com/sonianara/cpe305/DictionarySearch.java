@@ -46,7 +46,9 @@ public class DictionarySearch {
           String s = scanner2.next();
           dictionary.add(s);
         }
+        scanner2.close();
       }
+      scanner.close();
     } catch (Exception ex) {
       ex.printStackTrace();
     }

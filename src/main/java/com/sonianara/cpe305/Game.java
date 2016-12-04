@@ -600,8 +600,7 @@ public class Game {
    */
   public boolean checkWord(List<Location> locArray, Board currentGameBoard) {
     boolean isWord = false;
-    List<Character> tempArray = new ArrayList<>();
-    tempArray = getWord(currentGameBoard, locArray);
+    List<Character>tempArray = getWord(currentGameBoard, locArray);
     String word = arraytoString(tempArray);
     if (isWord(word)) {
       isWord = true;
