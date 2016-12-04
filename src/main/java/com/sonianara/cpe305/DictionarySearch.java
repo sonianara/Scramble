@@ -35,22 +35,31 @@ public class DictionarySearch {
    *          The file to open
    */
   public void createDictionary(String fileName) {
-
+    Scanner scanner = null;
+    Scanner scanner2 = null;
     // Makes sure file exists
     try {
-      Scanner scanner = new Scanner(new File(fileName));
+      scanner = new Scanner(new File(fileName));
 
       while (scanner.hasNextLine()) {
-        Scanner scanner2 = new Scanner(scanner.nextLine());
+        scanner2 = new Scanner(scanner.nextLine());
         while (scanner2.hasNext()) {
           String s = scanner2.next();
           dictionary.add(s);
         }
         scanner2.close();
       }
-      scanner.close();
     } catch (Exception ex) {
       ex.printStackTrace();
+      throw new RuntimeException(ex);
+    }
+    finally {
+      if (scanner != null) {
+        scanner.close();
+      }
+      if (scanner2 != null) {
+        scanner2.close();
+      }
     }
 
   }

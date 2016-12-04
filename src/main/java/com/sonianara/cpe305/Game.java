@@ -47,21 +47,21 @@ public class Game {
    * @return
    */
   public String checkWords(List<Location> locs, char[][] board) {
-    String word = "";
+    StringBuilder sb = new StringBuilder();
     int xDiff = locs.get(1).getX() - locs.get(0).getX() + 1;
     int yDiff = locs.get(1).getY() - locs.get(0).getY() + 1;
     
     if (locs.get(0).getY() == locs.get(1).getY()  || locs.size() == 1) {
       for (int i = 0; i < xDiff; i++) {
-        word += board[locs.get(0).getX() + i][locs.get(0).getY()];
+        sb.append(Character.toString(board[locs.get(0).getX() + i][locs.get(0).getY()]));
       }
     }
     else {
       for (int i = 0; i < yDiff; i++) {
-        word += board[locs.get(0).getX()][locs.get(0).getY() + i];
+        sb.append(Character.toString(board[locs.get(0).getX()][locs.get(0).getY() + i]));
       }
     }
-    return word;
+    return sb.toString();
   }
   
   /**

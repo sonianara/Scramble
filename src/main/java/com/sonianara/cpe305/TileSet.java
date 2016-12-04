@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class TileSet {
   private int numLetters;
-  public ArrayList<LetterTile> letters;
+  private ArrayList<LetterTile> letters;
   private HashMap<Character, Integer> numLettersMap;
   public static HashMap<Character, Integer> letterValueMap;
 
