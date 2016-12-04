@@ -137,10 +137,10 @@ public class TileSet {
 
     }
     // Add the two blank tiles
-    numLettersMap.put(' ', 2);
-    letterValueMap.put(' ', 0);
-    letters.add(new LetterTile(' '));
-    letters.add(new LetterTile(' '));
+    numLettersMap.put('_', 2);
+    letterValueMap.put('_', 0);
+    letters.add(new LetterTile('_'));
+    letters.add(new LetterTile('_'));
     numLetters = 2;
 
     // Adding all the tiles

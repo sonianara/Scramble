@@ -2,9 +2,18 @@ package com.sonianara.cpe305;
 
 public class Board {
   private int BOARDSIZE = 15;
-  private char[][] board;
+  private char[][] board = new char[BOARDSIZE][BOARDSIZE];
   private int height;
   private int width;
+
+  public Board() {
+    for (int i = 0; i < BOARDSIZE; i++) {
+      for (int j = 0; j < BOARDSIZE; j++) {
+        board[i][j] = ' ';
+      }
+    }
+  }
+  
 
   public Board(int height, int width) {
     this.height = height;
@@ -12,7 +21,15 @@ public class Board {
 
     createBoard();
   }
+  
+  public void setBoard(char[][] newBoard) {
+    board = newBoard;
+  }
 
+  public char[][] getBoard() {
+    return board;
+    
+  }
   public void setChar(char c, int i, int j) {
     board[i][j] = c;
   }

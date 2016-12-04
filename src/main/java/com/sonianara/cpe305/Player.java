@@ -46,16 +46,29 @@ public class Player {
   public ArrayList<LetterTile> getPlayerSet() {
     return playerSet;
   }
-
+  
+  public void deleteTile(char c) {
+    for (int i = 0; i < playerSet.size(); i++) {
+      if (playerSet.get(i).getLetter() == c) {
+        playerSet.remove(i);
+      }
+    }
+  }
+ 
+  public int getPlayerSetSize() {
+    return playerSet.size();
+  }
+  
   public void printPlayerSet(ArrayList<LetterTile> playerSet) {
     for (LetterTile lt : playerSet) {
-      System.out.print(lt.getLetter());
+      System.out.print(lt.getLetter() + " ");
     }
   }
 
   public int getNumLetters() {
     return playerSet.size();
   }
+  
 
   public char getOneLetter(ArrayList<LetterTile> playerSet) {
     return (playerSet.remove(0)).getLetter();

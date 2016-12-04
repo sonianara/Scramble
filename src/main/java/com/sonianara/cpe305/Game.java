@@ -1,48 +1,267 @@
 package com.sonianara.cpe305;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game {
 
   int BOARDSIZE = 15;
 
+  private Board mainBoard;
   private TileSet tileSet;
-  private ArrayList<Location> newWords;
   private DictionarySearch dictionary;
 
   public Game() {
 
+    this.mainBoard = new Board();
     // Initialize a unique TileSet for each game
     this.tileSet = new TileSet();
 
     this.dictionary = new DictionarySearch("words.txt");
 
-    this.newWords = new ArrayList<Location>();
   }
 
   public TileSet getTileSet() {
     return tileSet;
   }
+  
+  public DictionarySearch getDictionary() {
+    return dictionary;
+  }
+  
+  public String checkWords(ArrayList<Location> locs, char[][] board) {
+    String word = "";
+    int xDiff = locs.get(1).getX() - locs.get(0).getX() + 1;
+    int yDiff = locs.get(1).getY() - locs.get(0).getY() + 1;
+    
+    if (locs.get(0).getY() == locs.get(1).getY()  || locs.size() == 1) {
+      for (int i = 0; i < xDiff; i++) {
+        word += board[locs.get(0).getX() + i][locs.get(0).getY()];
+      }
+    }
+    else {
+      for (int i = 0; i < yDiff; i++) {
+        word += board[locs.get(0).getX()][locs.get(0).getY() + i];
+      }
+    }
+    return word;
+  }
+  
+  public Location getLeft(ArrayList<Location> locArray, char[][] board) {
+    int i = 1;
+    Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
+    while ((locArray.get(0).getX() - 1 > 0) && (board[locArray.get(0).getX() - i][locArray.get(0).getY()]) != ' ') {
+      temp = new Location(locArray.get(0).getX() - i, locArray.get(0).getY());
+      i++;
+    }
+    return temp;
+  }
+  
+  public Location getRight(ArrayList<Location> locArray, char[][] board) {
+    int i = 0;
+    Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
 
-  // Get the location of all the new letters
-  public ArrayList<Location> getNewLetterLocation(Board currentGameBoard, Board previousGameBoard) {
-    for (int x = 0; x < BOARDSIZE; x++) {
-      for (int y = 0; y < BOARDSIZE; y++) {
-        if (currentGameBoard.getChar(x, y) != previousGameBoard.getChar(x, y)) {
-          newWords.add(new Location(x, y));
+    while ((locArray.get(0).getX() + i < 15) && (board[locArray.get(0).getX() + i][locArray.get(0).getY()]) != ' ') {
+      temp = new Location(locArray.get(0).getX() + i, locArray.get(0).getY());
+      i++;
+    }
+    return temp;
+  }
+  
+  public Location getTop(ArrayList<Location> locArray, char[][] board) {
+    int i = 1;
+    Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
+    while ((locArray.get(0).getY() - i > 0) && board[locArray.get(0).getX()][locArray.get(0).getY() - i] != ' ') {
+      temp = new Location(locArray.get(0).getX(), locArray.get(0).getY() - i);
+      i++;
+    }
+    return temp;
+  }
+  
+  public Location getBottom(ArrayList<Location> locArray, char[][] board) {
+    int i = 0;
+    Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
+    while ((locArray.get(0).getY() + i < 15) && board[locArray.get(0).getX()][locArray.get(0).getY() + i] != ' ') {
+      temp = new Location(locArray.get(0).getX(), locArray.get(0).getY() + i);
+      i++;
+    }
+    return temp;
+  }
+  
+  public ArrayList<Character> getEnteredLetters(ArrayList<Location> newLetters, char[][] board) {
+    ArrayList<Character> chars = new ArrayList<Character>();
+    
+    for (int i = 0; i < newLetters.size(); i++) {
+      chars.add(board[newLetters.get(i).getX()][newLetters.get(i).getY()]);
+    }
+    return chars;
+  }
+  
+  
+  public ArrayList<String> getWordsString(char [][] currentBoard) {
+    
+    char[][] previousBoard = mainBoard.getBoard();
+    char[][] gameBoard = currentBoard;
+       
+    ArrayList<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
+    
+ 
+    ArrayList<Character> charsEntered = getEnteredLetters(newLetters, gameBoard);
+    ArrayList<String> newWords = allMyNewWords(newLetters, gameBoard);
+    
+    return newWords;
+  }
+  
+  public boolean makeFinalMove(char[][] currentBoard, Player p) {
+    
+    char[][] previousBoard = mainBoard.getBoard();
+    char[][] gameBoard = currentBoard;
+   
+    if (Arrays.deepEquals(previousBoard, gameBoard)) {
+      return false;
+    }
+    
+    boolean makemove = true;
+    
+    ArrayList<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
+    
+    if (newLetters.size() < 2 && mainBoard.isEmpty()) {
+      makemove = false;
+    }
+    
+    ArrayList<Character> charsEntered = getEnteredLetters(newLetters, gameBoard);
+    ArrayList<String> newWords = allMyNewWords(newLetters, gameBoard);
+    int points = pointsForAll(newWords);
+    
+    int numberOfWrongLetters = isBlankLetter(charsEntered, p);  
+    int numOfBlankLetters = containsBlankLetters(charsEntered);
+    System.out.println("number of wrong letters" + numberOfWrongLetters);
+    System.out.println("number of blank letters" + numOfBlankLetters);
+    
+    for (int i = 0; i < newWords.size(); i++) {
+      System.out.println("word" + newWords.get(i));
+    }
+    
+    if (isHorizontal(newLetters) == false && isVertical(newLetters) == false) {
+      makemove = false;
+    }
+    
+    if (numberOfWrongLetters > numOfBlankLetters) {
+      makemove = false;
+    }
+    
+    if (allWords(newWords) == false) {
+      System.out.println("Shouldn't be here also ");
+      makemove = false;
+    }
+    
+    if (makemove == true) {
+      mainBoard.setBoard(gameBoard);
+      p.addPoints(points);
+      replenishPlayerTiles(charsEntered, p);
+    }
+    System.out.println("makemove: " + makemove);
+    return makemove;
+  }
+    
+  public int containsBlankLetters(ArrayList<Character> enteredLetters) {
+    int count = 0;
+    for (int i = 0; i < enteredLetters.size(); i++) {
+      if (Character.toLowerCase(enteredLetters.get(i)) == '_') {
+        count++;
+      }
+    }
+    return count;
+  }
+ 
+  
+  public int isBlankLetter(ArrayList<Character> enteredLetters, Player p) {
+    int count = 0;
+    for (int i = 0; i < enteredLetters.size(); i++) {
+      for (int j = 0; j < p.getPlayerSetSize(); j++) {
+        if (Character.toLowerCase(enteredLetters.get(i)) == p.getPlayerSet().get(j).getLetter()) {
+          count++;
+          break;
         }
       }
     }
-    return newWords;
+    return enteredLetters.size() - count;
   }
+    
+    public ArrayList<String> allMyNewWords(ArrayList<Location> locArray, char[][] gameBoard) {
+
+      ArrayList<String> retString = new ArrayList<String>();
+      ArrayList<Location> firstlast = new ArrayList<Location>();
+      
+      if (isHorizontal(locArray) || locArray.size() == 1) {
+        firstlast.add(getLeft(locArray, gameBoard));
+        firstlast.add(getRight(locArray, gameBoard));
+      }
+      else {
+        firstlast.add(getTop(locArray, gameBoard));
+        firstlast.add(getBottom(locArray, gameBoard));
+      }
+      
+      retString.add(checkWords(firstlast, gameBoard));
+      for (int i = 0; i < retString.size(); i++) {
+      }
+      
+      return retString;
+    }
+
+
+  public void printString(ArrayList<String> str) {
+    for (int i = 0; i < str.size(); i++) {
+      System.out.println("word: " + str.get(i));
+    }
+  }
+  
+  public void getOtherHorizWords(ArrayList<Location> loc, char[][] board, ArrayList<String> retString) {
+    for (int i = 0; i < loc.size(); i++) {
+      ArrayList<Location> horiz = new ArrayList<Location>();
+      horiz.add(loc.get(i));
+      ArrayList<Location> checkHoriz = new ArrayList<Location>();
+      checkHoriz.add(getTop(loc, board));
+      checkHoriz.add(getBottom(loc, board));
+      retString.add(checkWords(checkHoriz, board));
+    }
+  }
+  
+  public void getOtherVertWords(ArrayList<Location> loc, char[][] board, ArrayList<String> retString) {
+    for (int i = 0; i < loc.size(); i++) {
+      ArrayList<Location> vert = new ArrayList<Location>();
+      vert.add(loc.get(i));
+      ArrayList<Location> checkVert = new ArrayList<Location>();
+      checkVert.add(getRight(loc, board));
+      checkVert.add(getLeft(loc, board));
+      retString.add(checkWords(checkVert, board));
+    }
+  }
+  
+
+  // Get the location of all the new letters
+  public ArrayList<Location> getNewLetterLocation(char[][] previousBoard, char[][] gameBoard) {
+
+    ArrayList<Location> newLocations = new ArrayList<Location>();
+    for (int x = 0; x < BOARDSIZE; x++) {
+      for (int y = 0; y < BOARDSIZE; y++) {
+        if (previousBoard[x][y] != gameBoard[x][y]) {
+          newLocations.add(new Location(x, y));
+        }
+      }
+    }
+    return newLocations;
+  }
+  
 
   public boolean checkValidityOfWords(ArrayList<String> newWords) {
     for (int i = 0; i < newWords.size(); i++) {
-      if (!dictionary.contains(newWords.get(i))) {
-        return false;
+      if (dictionary.contains(newWords.get(i).toLowerCase()) || newWords.size() == 1 || newWords.get(i) == " " ||
+          newWords.get(i) == "") {
+        return true;
       }
     }
-    return true;
+    return false;
   }
   
   public void printGameBoard(Board board) {
@@ -56,11 +275,8 @@ public class Game {
   }
 
   public ArrayList<String> getNewWords(ArrayList<Location> newLetters, Board gameBoard) {
-    System.out.println("Printing in method");
     printGameBoard(gameBoard);
     ArrayList<String> allNewWords = new ArrayList<String>();
-
-    System.out.println("is horizontal: " + isHorizontal(newLetters));
     
     if (isHorizontal(newLetters)) {
       for (int i = 0; i < newLetters.size(); i++) {
@@ -185,12 +401,20 @@ public class Game {
     }
     return retLoc;
   }
+  
+  public int pointsForAll(ArrayList<String> words) {
+    int total = 0;
+    for (int i = 0; i < words.size(); i++) {
+      total += calculatePointsForWord(words.get(i));
+    }
+    return total;
+  }
 
   // tested
-  public int calculatePointsForWord(ArrayList<Character> charArray) {
+  public int calculatePointsForWord(String str) {
     int totalPoints = 0;
-    for (int i = 0; i < charArray.size(); i++) {
-      totalPoints += TileSet.getLetterValue(charArray.get(i));
+    for (int i = 0; i < str.length(); i++) {
+      totalPoints += TileSet.getLetterValue(str.charAt(i));
     }
     
     return totalPoints;
@@ -296,10 +520,13 @@ public class Game {
     }
   }
 
-  public void printBoard(Board board) {
+  public void printBoard(char[][] board) {
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
-        System.out.println(board.getChar(i, j));
+        if (board[i][j] != ' ') {
+          char c = board[i][j];
+          System.out.println(c);
+        }
       }
     }
   }
@@ -321,9 +548,19 @@ public class Game {
 
     return builder.toString().toLowerCase();
   }
+  
+  public boolean allWords(ArrayList<String> words) {
+    for (int i = 0; i < words.size(); i++) {
+      String w = words.get(i).toLowerCase();
+      System.out.println("Checking: " + w);
+      if (isWord(w)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   public boolean isWord(String word) {
-    System.out.println(word);
     if (dictionary.contains(word)) {
       return true;
     }
@@ -497,13 +734,14 @@ public class Game {
     }
     return false;
   }
-
-  public void replenishPlayerRack(Player p) {
-    int numLetters = p.getNumLetters();
-    while (numLetters < 7) {
-      p.getPlayerSet().add(tileSet.getRandomLetter());
-      numLetters++;
+  
+  public void replenishPlayerTiles(ArrayList<Character> playedLetters, Player p) {
+    for (int i = 0; i < playedLetters.size(); i++) {
+      char c = Character.toLowerCase(playedLetters.get(i));
+      p.deleteTile(c);
     }
+   while (p.getPlayerSetSize() < 7) {
+     p.getPlayerSet().add(tileSet.getRandomLetter());
+   }
   }
-
 }

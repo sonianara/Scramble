@@ -4,6 +4,11 @@ public class Location {
 
   private int[] coords = new int[2];
 
+  
+  public Location () {
+    
+  }
+  
   public Location(int x, int y) {
     coords[0] = x;
     coords[1] = y;

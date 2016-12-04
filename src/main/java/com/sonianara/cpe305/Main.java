@@ -32,8 +32,7 @@ public class Main extends Application {
   Button[] buttonRack = new Button[7];
   ArrayList<Player> playerArray = new ArrayList<Player>();
   TextField[][] squares = new TextField[15][15];
-  Board newBoard = new Board(15, 15);
-  Board previousBoard = new Board(15, 15);
+
   Game game;
   private boolean p3Flag = false;
   private boolean p4Flag = false;
@@ -44,8 +43,7 @@ public class Main extends Application {
   /* The "WELCOME TO SCRAMBLE" Screen */
 
   public void start(final Stage primaryStage) {
-    newBoard.createBoard();
-    previousBoard.createBoard();
+
 
     primaryStage.setTitle("Scramble");
     Button beginButton = new Button();
@@ -187,23 +185,23 @@ public class Main extends Application {
     StackPane.setAlignment(grid, Pos.BOTTOM_RIGHT);
     primaryStage.setScene(new Scene(sp, 800, 800, Color.LIGHTSKYBLUE));
     primaryStage.show();
-  }
-
-  public void savePreviousBoard() {
-    previousBoard = newBoard;
-  }
-
-  public void saveNewBoard() {
+  }  
+  
+  public char[][] saveNewBoard() {
+    char[][] newBoard = new char[15][15];
+    
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
         if (!squares[i][j].getText().isEmpty()) {
           char temp = squares[i][j].getText().charAt(0);
-          newBoard.setChar(temp, i, j);
-        } else {
-          newBoard.setChar(' ', i, j);
+          newBoard[i][j] = temp;
+        } 
+        else {
+          newBoard[i][j] = ' ';
         }
       }
     }
+    return newBoard;
   }
 
   public void createJavaFXBoard(GridPane gp) {
@@ -223,17 +221,34 @@ public class Main extends Application {
   }
 
   public void createButtons(Player p, HBox bottomRack, int numTurns) {
+    ArrayList<LetterTile> playerArr = p.getPlayerSet();
     for (int i = 0; i < 7; i++) {
       if (numTurns == 1) {
         buttonRack[i] = new Button();
       }
-      ArrayList<LetterTile> playerArr = p.getPlayerSet();
-      buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase());
-      buttonRack[i].setMinWidth(50);
-      buttonRack[i].setMinHeight(50);
+     
+      buttonRack[i].wrapTextProperty().setValue(true);
+      if (playerArr.get(i).getLetter() != ' ') {
+        buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase() + " (" + (game.getTileSet().getLetterValue(playerArr.get(i).getLetter())) + ")");
+        buttonRack[i].setMinWidth(50);
+        buttonRack[i].setMinHeight(50);
+      }
+      else {
+        buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase());
+        buttonRack[i].setMinWidth(50);
+        buttonRack[i].setMinHeight(50);
+      }
       if (numTurns == 1) {
         bottomRack.getChildren().add(buttonRack[i]);
       }
+    }
+  }
+  
+  public void createHistoryOfWords(VBox wordHistory, ArrayList<String> words) {
+    for (String word: words) {
+      Label l = new Label(word);
+      l.setAlignment(Pos.CENTER);
+      wordHistory.getChildren().add(l);
     }
   }
 
@@ -241,12 +256,21 @@ public class Main extends Application {
     numTurns++;
     roundNumber = 1;
     
+    VBox wordHistory = new VBox();
+    Label history = new Label("Word History");
+    history.setStyle("" + "-fx-font-size: 20px;" + "-fx-font-family: Cambria;");
+    history.setAlignment(Pos.CENTER);
+    wordHistory.getChildren().add(history);
+    
+    
+    
     HBox bottomRack = new HBox();
     bottomRack.setAlignment(Pos.CENTER);
     bottomRack.setPadding(new Insets(5, 20, 5, 20));
     Button makeMoveButton = new Button("Make Move");
     makeMoveButton.setAlignment(Pos.CENTER_RIGHT);
 
+    Label errors = new Label();
     GridPane gp = new GridPane();
 
     VBox scoreBox = createScoreBoard();
@@ -254,7 +278,7 @@ public class Main extends Application {
     Label roundNumberLabel = new Label("Round: " + String.valueOf(roundNumber));
     roundNumberLabel.setAlignment(Pos.CENTER_RIGHT);
     changeTexts(topHeading);
-    gp.setPadding(new Insets(50, 50, 50, 50));
+    gp.setPadding(new Insets(50, 50, 25, 50));
 
     createJavaFXBoard(gp);
 
@@ -275,76 +299,19 @@ public class Main extends Application {
 
     createButtons(p, bottomRack, numTurns);
 
-    saveNewBoard();
-
     makeMoveButton.setOnAction(new EventHandler<ActionEvent>() {
-      
-
       public void handle(ActionEvent event) {
-   
-        System.out.println("value of i first" + i);
-        disableGridSquares();
-
-        if (numTurns != 1) {
-          savePreviousBoard();
-        }
-        printPreviousBoard();
         
-        boolean valid = false;
- 
-        saveNewBoard();
+        char[][] newBoard = saveNewBoard();
         
-        printNewBoard();
-        
-        ArrayList<Location> newWords = game.getNewLetterLocation(previousBoard, newBoard);
-        ArrayList<String> allNewWords = game.getNewWords(newWords, newBoard);
-        /*
-        for (String s : allNewWords) {
-          System.out.println("All new words: " + s);
-        }
-        */
-        ArrayList<Character> temp = game.getWord(newBoard, newWords);
-        String s = game.arraytoString(temp);
-        int pointsForWord = game.calculatePointsForWord(temp);
-
-        if (numTurns > 1) {
-          /*
-          System.out.println("Number of points" + pointsForWord);
-          System.out.println("isAdjacent" + game.isAdjacentToAWord(newBoard, newWords));
-          System.out.println("Check validity" + game.checkValidityOfWords(allNewWords));
-          System.out.println("Should go here");
-          System.out.println("Is horizontal" + game.isHorizontal(newWords));
-          System.out.println("Is vertical" + game.isVertical(newWords));
-          System.out.println("Played from rack" + game.playedFromRack(p, newWords, newBoard));
-          System.out.println("Is valid word" + game.isWord(s));
-          System.out.println("Check word: " + game.checkWord(newWords, newBoard));
-          */
-          if (game.isAdjacentToAWord(newBoard, newWords) == true) {
-            valid = true;
-          }
-          if (game.checkValidityOfWords(allNewWords) == true) {
-            valid = true;
-            
-          }
-        } else if (numTurns == 1) {
-
-          if (game.isHorizontal(newWords) == true || game.isVertical(newWords) == true) {
-            valid = true;
-          }
-          if (game.playedFromRack(p, newWords, newBoard) == true) {
-            valid = true;
-          }
-          if (game.checkWord(newWords, newBoard) == true
-              && game.playedFromRack(p, newWords, newBoard) == true) {
-            valid = true;
+        ArrayList<String> words = game.getWordsString(newBoard);
+        boolean valid = game.makeFinalMove(newBoard, playerArray.get(i));       
            
-          }
-        }
         if (valid == true) {
+          createHistoryOfWords(wordHistory, words);
+          disableGridSquares();
           roundNumber++;
-          game.replenishPlayerRack(playerArray.get(i));
           numTurns++;
-          playerArray.get(i).addPoints(pointsForWord);
           scoreLabels[i].
           setText(playerArray.get(i).getName() + ": " + playerArray.get(i).getPoints());
         
@@ -357,22 +324,31 @@ public class Main extends Application {
           topHeading.setText("It's " + playerArray.get(i).getName() + "'s Turn!");
           roundNumberLabel.setText("Round: " + String.valueOf(roundNumber));
           createButtons(playerArray.get(i), bottomRack, numTurns);
+          errors.setText("");
+        }
+        else {
+          errors.setText("Wrong play");
         }
       }
     });
 
+    HBox biggerLayout = new HBox();
     HBox bigLayout = new HBox();
     VBox layout = new VBox();
     scoreBox.setStyle("-fx-background-color: transparent;");
     scoreBox.setAlignment(Pos.CENTER_LEFT);
     scoreBox.setPadding(new Insets(0, 0, 0, 10));
-    layout.getChildren().addAll(topHeading, roundNumberLabel, scoreBox, gp, bottomRack,
+    bottomRack.setPadding(new Insets(0, 0, 10, 0));
+    layout.getChildren().addAll(topHeading, roundNumberLabel, errors, scoreBox, gp, bottomRack,
         makeMoveButton);
     layout.setStyle("-fx-background-color: transparent;");
     layout.setAlignment(Pos.CENTER);
     bigLayout.getChildren().addAll(scoreBox, layout);
     bigLayout.setStyle("-fx-background-color: transparent;");
-    primaryStage.setScene(new Scene(bigLayout, 800, 800, Color.LIGHTSKYBLUE));
+    wordHistory.setPadding(new Insets(150, 0, 0, 20));
+    biggerLayout.getChildren().addAll(bigLayout, wordHistory);
+    biggerLayout.setStyle("-fx-background-color: transparent;");
+    primaryStage.setScene(new Scene(biggerLayout, 800, 800, Color.LIGHTSKYBLUE));
     primaryStage.show();
   }
 
@@ -386,16 +362,6 @@ public class Main extends Application {
     }
   }
 
-  public void printPreviousBoard() {
-    for (int i = 0; i < 15; i++) {
-      for (int j = 0; j < 15; j++) {
-        if (previousBoard.getChar(i, j) != ' ') {
-          char c = previousBoard.getChar(i, j);
-          System.out.println("Previous" + c);
-        }
-      }
-    }
-  }
 
   public VBox createScoreBoard() {
     VBox scoreBox = new VBox();
@@ -413,11 +379,11 @@ public class Main extends Application {
     return scoreBox;
   }
 
-  public void printNewBoard() {
+  public void printNewBoard(char[][] newBoard) {
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
-        if (newBoard.getChar(i, j) != ' ') {
-          char c = newBoard.getChar(i, j);
+        if (newBoard[i][j] != ' ') {
+          char c = newBoard[i][j];
           System.out.println("New" + c);
         }
       }
