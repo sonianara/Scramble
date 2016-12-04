@@ -1,6 +1,7 @@
 package com.sonianara.cpe305;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.beans.binding.BooleanBinding;
@@ -22,6 +23,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
+/**
+ * This class represents the GUI 
+ * @author sonianarayanan
+ *
+ */
 public class Main extends Application {
 
   Player p1 = new Player();
@@ -30,8 +36,9 @@ public class Main extends Application {
   Player p4 = new Player();
   Label[] scoreLabels = new Label[5];
   Button[] buttonRack = new Button[7];
-  ArrayList<Player> playerArray = new ArrayList<Player>();
+  ArrayList<Player> playerArray = new ArrayList<>();
   TextField[][] squares = new TextField[15][15];
+  String transparentBackground = "-fx-background-color: transparent;";
 
   Game game;
   private boolean p3Flag = false;
@@ -42,6 +49,11 @@ public class Main extends Application {
 
   /* The "WELCOME TO SCRAMBLE" Screen */
 
+  /**
+   * 
+   * The first "Welcome to Scramble" screen
+   * @param primaryStage
+   */
   public void start(final Stage primaryStage) {
 
 
@@ -59,7 +71,7 @@ public class Main extends Application {
     });
 
     StackPane root = new StackPane();
-    root.setStyle("-fx-background-color: transparent;");
+    root.setStyle(transparentBackground);
     root.getChildren().addAll(beginButton, welcomeLabel);
     root.setPadding(new Insets(100, 0, 0, 0));
     StackPane.setAlignment(beginButton, Pos.CENTER);
@@ -68,15 +80,16 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  /*
-   * The screen to allow players to type their names
+ 
+  /**
+   * The screen to allow users to type their player names
+   * @param primaryStage
    */
-
   public void beginButtonClicked(final Stage primaryStage) {
     StackPane sp = new StackPane();
-    sp.setStyle("-fx-background-color: transparent;");
+    sp.setStyle(transparentBackground);
     GridPane grid = new GridPane();
-    grid.setStyle("-fx-background-color: transparent;");
+    grid.setStyle(transparentBackground);
     Button letsPlayBtn = new Button("Let's Play !");
 
     Label firstPlayerLabel = new Label("Player 1");
@@ -134,7 +147,7 @@ public class Main extends Application {
 
       @Override
       protected boolean computeValue() {
-        return (firstPlayerTxt.getText().isEmpty() || secondPlayerTxt.getText().isEmpty());
+        return firstPlayerTxt.getText().isEmpty() || secondPlayerTxt.getText().isEmpty();
       }
     };
 
@@ -156,8 +169,9 @@ public class Main extends Application {
           p4Flag = true;
         }
 
-        for (int i = 0; i < numPlayers; i++) {
+        while (numPlayers > 0) {
           playerArray.add(new Player());
+          numPlayers--;
         }
 
         playerArray.get(0).setName(firstPlayerTxt.getText());
@@ -187,6 +201,10 @@ public class Main extends Application {
     primaryStage.show();
   }  
   
+  /**
+   * Save the state of the board
+   * @return a char double array containing the new letters 
+   */
   public char[][] saveNewBoard() {
     char[][] newBoard = new char[15][15];
     
@@ -204,6 +222,10 @@ public class Main extends Application {
     return newBoard;
   }
 
+  /**
+   * Create a gridpane of textfield squares 
+   * @param gp
+   */
   public void createJavaFXBoard(GridPane gp) {
     System.setProperty("prism.text", "t2k");
     for (int i = 0; i < 15; i++) {
@@ -212,14 +234,20 @@ public class Main extends Application {
         final int finalJ = j;
         squares[i][j] = new TextField("");
         squares[i][j].setPrefSize(30, 30);
-        squares[i][j].textProperty().addListener((ov, oldValue, newValue) -> {
-          squares[finalI][finalJ].setText(newValue.toUpperCase());
-        });
+        squares[i][j].textProperty().addListener((ov, oldValue, newValue) -> 
+          squares[finalI][finalJ].setText(newValue.toUpperCase())
+        );
         gp.add(squares[i][j], i, j);
       }
     }
   }
 
+  /**
+   * creating the player's rack of tiles as buttons 
+   * @param p
+   * @param bottomRack
+   * @param numTurns
+   */
   public void createButtons(Player p, HBox bottomRack, int numTurns) {
     ArrayList<LetterTile> playerArr = p.getPlayerSet();
     for (int i = 0; i < 7; i++) {
@@ -244,7 +272,7 @@ public class Main extends Application {
     }
   }
   
-  public void createHistoryOfWords(VBox wordHistory, ArrayList<String> words) {
+  public void createHistoryOfWords(VBox wordHistory, List<String> words) {
     for (String word: words) {
       Label l = new Label(word);
       l.setAlignment(Pos.CENTER);
@@ -275,7 +303,7 @@ public class Main extends Application {
 
     VBox scoreBox = createScoreBoard();
     Label topHeading = new Label("It's " + p.getName() + "'s Turn!");
-    Label roundNumberLabel = new Label("Round: " + String.valueOf(roundNumber));
+    Label roundNumberLabel = new Label("Round: " + roundNumber);
     roundNumberLabel.setAlignment(Pos.CENTER_RIGHT);
     changeTexts(topHeading);
     gp.setPadding(new Insets(50, 50, 25, 50));
@@ -304,7 +332,7 @@ public class Main extends Application {
         
         char[][] newBoard = saveNewBoard();
         
-        ArrayList<String> words = game.getWordsString(newBoard);
+        List<String> words = game.getWordsString(newBoard);
         boolean valid = game.makeFinalMove(newBoard, playerArray.get(i));       
            
         if (valid == true) {
@@ -341,13 +369,13 @@ public class Main extends Application {
     bottomRack.setPadding(new Insets(0, 0, 10, 0));
     layout.getChildren().addAll(topHeading, roundNumberLabel, errors, scoreBox, gp, bottomRack,
         makeMoveButton);
-    layout.setStyle("-fx-background-color: transparent;");
+    layout.setStyle(transparentBackground);
     layout.setAlignment(Pos.CENTER);
     bigLayout.getChildren().addAll(scoreBox, layout);
-    bigLayout.setStyle("-fx-background-color: transparent;");
+    bigLayout.setStyle(transparentBackground);
     wordHistory.setPadding(new Insets(150, 0, 0, 20));
     biggerLayout.getChildren().addAll(bigLayout, wordHistory);
-    biggerLayout.setStyle("-fx-background-color: transparent;");
+    biggerLayout.setStyle(transparentBackground);
     primaryStage.setScene(new Scene(biggerLayout, 800, 800, Color.LIGHTSKYBLUE));
     primaryStage.show();
   }

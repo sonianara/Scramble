@@ -2,19 +2,30 @@ package com.sonianara.cpe305;
 
 /**
  * Represents the dictionary for the application.
+ * @author sonianarayanan
  * @author sarahpadlipsky
  * @version October 20, 2016
  */
 
 import java.io.File;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.HashSet;
 
+
+/**
+ * The entire Oxford English dictionary 
+ * @author sonianarayanan
+ *
+ */
 public class DictionarySearch {
 
   // The dictionary for the application.
-  HashSet<String> dictionary = new HashSet<String>();
+  Set<String> dictionary = new HashSet<>();
 
+  /**
+   * @param fileName A file that contains all the words in the dictionary 
+   */
   public DictionarySearch(String fileName) {
     createDictionary(fileName);
   }
@@ -45,11 +56,12 @@ public class DictionarySearch {
   /**
    * @return The dictionary for the application
    */
-  public HashSet<String> getDictionary() {
+  public Set<String> getDictionary() {
     return dictionary;
   }
 
   /**
+   * @param word The word to search in the dictionary 
    * @return Whether words exists in dictionary
    */
   public boolean contains(String word) {

@@ -2,15 +2,25 @@ package com.sonianara.cpe305;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+
+
+/**
+ * This class contains all of the game logic 
+ */
 public class Game {
 
-  int BOARDSIZE = 15;
+  int boardSize = 15;
 
   private Board mainBoard;
   private TileSet tileSet;
   private DictionarySearch dictionary;
 
+  /**
+   * This constructor represents the initialization
+   * of a board, a bag of tiles, and the dictionary 
+   */
   public Game() {
 
     this.mainBoard = new Board();
@@ -29,7 +39,14 @@ public class Game {
     return dictionary;
   }
   
-  public String checkWords(ArrayList<Location> locs, char[][] board) {
+  /**
+   * This function returns a string containing a word
+   * using letters placed on a board
+   * @param locs a list of the new locations 
+   * @param board
+   * @return
+   */
+  public String checkWords(List<Location> locs, char[][] board) {
     String word = "";
     int xDiff = locs.get(1).getX() - locs.get(0).getX() + 1;
     int yDiff = locs.get(1).getY() - locs.get(0).getY() + 1;
@@ -47,7 +64,13 @@ public class Game {
     return word;
   }
   
-  public Location getLeft(ArrayList<Location> locArray, char[][] board) {
+  /**
+   * This function returns the location of the leftmost letter
+   * @param locArray the list of locations of the new letters
+   * @param board
+   * @return
+   */
+  public Location getLeft(List<Location> locArray, char[][] board) {
     int i = 1;
     Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
     while ((locArray.get(0).getX() - 1 > 0) && (board[locArray.get(0).getX() - i][locArray.get(0).getY()]) != ' ') {
@@ -57,7 +80,13 @@ public class Game {
     return temp;
   }
   
-  public Location getRight(ArrayList<Location> locArray, char[][] board) {
+  /**
+   * This function returns the location of the right-most letter 
+   * @param locArray the list of locations of the new letters
+   * @param board
+   * @return
+   */
+  public Location getRight(List<Location> locArray, char[][] board) {
     int i = 0;
     Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
 
@@ -68,7 +97,13 @@ public class Game {
     return temp;
   }
   
-  public Location getTop(ArrayList<Location> locArray, char[][] board) {
+  /**
+   * This function returns the location of the top-most letter
+   * @param locArray the list of locations of the new letters
+   * @param board
+   * @return
+   */
+  public Location getTop(List<Location> locArray, char[][] board) {
     int i = 1;
     Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
     while ((locArray.get(0).getY() - i > 0) && board[locArray.get(0).getX()][locArray.get(0).getY() - i] != ' ') {
@@ -78,7 +113,13 @@ public class Game {
     return temp;
   }
   
-  public Location getBottom(ArrayList<Location> locArray, char[][] board) {
+  /**
+   * This function returns the location of the bottom-most letter
+   * @param locArray the list of locations of the new letters
+   * @param board
+   * @return
+   */
+  public Location getBottom(List<Location> locArray, char[][] board) {
     int i = 0;
     Location temp = new Location(locArray.get(0).getX(), locArray.get(0).getY());
     while ((locArray.get(0).getY() + i < 15) && board[locArray.get(0).getX()][locArray.get(0).getY() + i] != ' ') {
@@ -88,8 +129,14 @@ public class Game {
     return temp;
   }
   
-  public ArrayList<Character> getEnteredLetters(ArrayList<Location> newLetters, char[][] board) {
-    ArrayList<Character> chars = new ArrayList<Character>();
+  /**
+   * 
+   * @param newLetters
+   * @param board
+   * @return the list of characters given the new locations on the board 
+   */
+  public List<Character> getEnteredLetters(List<Location> newLetters, char[][] board) {
+    List<Character> chars = new ArrayList<>();
     
     for (int i = 0; i < newLetters.size(); i++) {
       chars.add(board[newLetters.get(i).getX()][newLetters.get(i).getY()]);
@@ -97,21 +144,26 @@ public class Game {
     return chars;
   }
   
-  
-  public ArrayList<String> getWordsString(char [][] currentBoard) {
+  /**
+   * 
+   * @param currentBoard
+   * @return a list of all the new words formed on the board 
+   */
+  public List<String> getWordsString(char [][] currentBoard) {
     
     char[][] previousBoard = mainBoard.getBoard();
     char[][] gameBoard = currentBoard;
        
-    ArrayList<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
-    
- 
-    ArrayList<Character> charsEntered = getEnteredLetters(newLetters, gameBoard);
-    ArrayList<String> newWords = allMyNewWords(newLetters, gameBoard);
-    
-    return newWords;
+    List<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
+    return allMyNewWords(newLetters, gameBoard);
   }
   
+  /**
+   * 
+   * @param currentBoard with the new location of letters 
+   * @param p current player 
+   * @return whether the words played were valid 
+   */
   public boolean makeFinalMove(char[][] currentBoard, Player p) {
     
     char[][] previousBoard = mainBoard.getBoard();
@@ -123,26 +175,21 @@ public class Game {
     
     boolean makemove = true;
     
-    ArrayList<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
+    List<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
     
     if (newLetters.size() < 2 && mainBoard.isEmpty()) {
       makemove = false;
     }
     
-    ArrayList<Character> charsEntered = getEnteredLetters(newLetters, gameBoard);
-    ArrayList<String> newWords = allMyNewWords(newLetters, gameBoard);
+    List<Character> charsEntered = getEnteredLetters(newLetters, gameBoard);
+    List<String> newWords = allMyNewWords(newLetters, gameBoard);
     int points = pointsForAll(newWords);
     
     int numberOfWrongLetters = isBlankLetter(charsEntered, p);  
     int numOfBlankLetters = containsBlankLetters(charsEntered);
-    System.out.println("number of wrong letters" + numberOfWrongLetters);
-    System.out.println("number of blank letters" + numOfBlankLetters);
+ 
     
-    for (int i = 0; i < newWords.size(); i++) {
-      System.out.println("word" + newWords.get(i));
-    }
-    
-    if (isHorizontal(newLetters) == false && isVertical(newLetters) == false) {
+    if (!isHorizontal(newLetters) && !isVertical(newLetters)) {
       makemove = false;
     }
     
@@ -150,48 +197,62 @@ public class Game {
       makemove = false;
     }
     
-    if (allWords(newWords) == false) {
-      System.out.println("Shouldn't be here also ");
+    if (!allWords(newWords)) {
       makemove = false;
     }
     
-    if (makemove == true) {
+    if (makemove) {
       mainBoard.setBoard(gameBoard);
       p.addPoints(points);
       replenishPlayerTiles(charsEntered, p);
     }
-    System.out.println("makemove: " + makemove);
     return makemove;
   }
     
-  public int containsBlankLetters(ArrayList<Character> enteredLetters) {
+  /**
+   * 
+   * @param charsEntered
+   * @return the number of blank letter in the list of characters played
+   */
+  public int containsBlankLetters(List<Character> charsEntered) {
     int count = 0;
-    for (int i = 0; i < enteredLetters.size(); i++) {
-      if (Character.toLowerCase(enteredLetters.get(i)) == '_') {
+    for (int i = 0; i < charsEntered.size(); i++) {
+      if (Character.toLowerCase(charsEntered.get(i)) == '_') {
         count++;
       }
     }
     return count;
   }
  
-  
-  public int isBlankLetter(ArrayList<Character> enteredLetters, Player p) {
+  /**
+   * 
+   * @param charsEntered
+   * @param p player
+   * @return the number of wrong letters played
+   */
+  public int isBlankLetter(List<Character> charsEntered, Player p) {
     int count = 0;
-    for (int i = 0; i < enteredLetters.size(); i++) {
+    for (int i = 0; i < charsEntered.size(); i++) {
       for (int j = 0; j < p.getPlayerSetSize(); j++) {
-        if (Character.toLowerCase(enteredLetters.get(i)) == p.getPlayerSet().get(j).getLetter()) {
+        if (Character.toLowerCase(charsEntered.get(i)) == p.getPlayerSet().get(j).getLetter()) {
           count++;
           break;
         }
       }
     }
-    return enteredLetters.size() - count;
+    return charsEntered.size() - count;
   }
     
-    public ArrayList<String> allMyNewWords(ArrayList<Location> locArray, char[][] gameBoard) {
+  /**
+   * 
+   * @param locArray
+   * @param gameBoard
+   * @return a list of all of the new words played on the board 
+   */
+    public List<String> allMyNewWords(List<Location> locArray, char[][] gameBoard) {
 
-      ArrayList<String> retString = new ArrayList<String>();
-      ArrayList<Location> firstlast = new ArrayList<Location>();
+      List<String> retString = new ArrayList<>();
+      List<Location> firstlast = new ArrayList<>();
       
       if (isHorizontal(locArray) || locArray.size() == 1) {
         firstlast.add(getLeft(locArray, gameBoard));
@@ -203,35 +264,50 @@ public class Game {
       }
       
       retString.add(checkWords(firstlast, gameBoard));
-      for (int i = 0; i < retString.size(); i++) {
-      }
       
       return retString;
     }
 
 
-  public void printString(ArrayList<String> str) {
+  /**
+   * Prints out the string
+   * Used for debugging purposes
+   * @param str list of strings
+   */
+  public void printString(List<String> str) {
     for (int i = 0; i < str.size(); i++) {
       System.out.println("word: " + str.get(i));
     }
   }
   
-  public void getOtherHorizWords(ArrayList<Location> loc, char[][] board, ArrayList<String> retString) {
+  /**
+   * This function checks all possible horizontal words 
+   * @param loc list of new locations 
+   * @param board game board
+   * @param retString 
+   */
+  public void getOtherHorizWords(List<Location> loc, char[][] board, List<String> retString) {
     for (int i = 0; i < loc.size(); i++) {
-      ArrayList<Location> horiz = new ArrayList<Location>();
+      ArrayList<Location> horiz = new ArrayList<>();
       horiz.add(loc.get(i));
-      ArrayList<Location> checkHoriz = new ArrayList<Location>();
+      ArrayList<Location> checkHoriz = new ArrayList<>();
       checkHoriz.add(getTop(loc, board));
       checkHoriz.add(getBottom(loc, board));
       retString.add(checkWords(checkHoriz, board));
     }
   }
   
-  public void getOtherVertWords(ArrayList<Location> loc, char[][] board, ArrayList<String> retString) {
+  /**
+   * This function checks all possible verticle words
+   * @param loc list of new locations
+   * @param board game board
+   * @param retString
+   */
+  public void getOtherVertWords(List<Location> loc, char[][] board, List<String> retString) {
     for (int i = 0; i < loc.size(); i++) {
-      ArrayList<Location> vert = new ArrayList<Location>();
+      ArrayList<Location> vert = new ArrayList<>();
       vert.add(loc.get(i));
-      ArrayList<Location> checkVert = new ArrayList<Location>();
+      ArrayList<Location> checkVert = new ArrayList<>();
       checkVert.add(getRight(loc, board));
       checkVert.add(getLeft(loc, board));
       retString.add(checkWords(checkVert, board));
@@ -239,12 +315,17 @@ public class Game {
   }
   
 
-  // Get the location of all the new letters
-  public ArrayList<Location> getNewLetterLocation(char[][] previousBoard, char[][] gameBoard) {
+  /**
+   * Get the location of all new letters 
+   * @param previousBoard
+   * @param gameBoard
+   * @return
+   */
+  public List<Location> getNewLetterLocation(char[][] previousBoard, char[][] gameBoard) {
 
-    ArrayList<Location> newLocations = new ArrayList<Location>();
-    for (int x = 0; x < BOARDSIZE; x++) {
-      for (int y = 0; y < BOARDSIZE; y++) {
+    List<Location> newLocations = new ArrayList<>();
+    for (int x = 0; x < boardSize; x++) {
+      for (int y = 0; y < boardSize; y++) {
         if (previousBoard[x][y] != gameBoard[x][y]) {
           newLocations.add(new Location(x, y));
         }
@@ -253,8 +334,12 @@ public class Game {
     return newLocations;
   }
   
-
-  public boolean checkValidityOfWords(ArrayList<String> newWords) {
+  /**
+   * Check if all the words played are valid words in the dictionary 
+   * @param newWords
+   * @return
+   */
+  public boolean checkValidityOfWords(List<String> newWords) {
     for (int i = 0; i < newWords.size(); i++) {
       if (dictionary.contains(newWords.get(i).toLowerCase()) || newWords.size() == 1 || newWords.get(i) == " " ||
           newWords.get(i) == "") {
@@ -264,6 +349,10 @@ public class Game {
     return false;
   }
   
+  /**
+   * Print the game board 
+   * @param board
+   */
   public void printGameBoard(Board board) {
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -274,85 +363,16 @@ public class Game {
     }
   }
 
-  public ArrayList<String> getNewWords(ArrayList<Location> newLetters, Board gameBoard) {
-    printGameBoard(gameBoard);
-    ArrayList<String> allNewWords = new ArrayList<String>();
-    
-    if (isHorizontal(newLetters)) {
-      for (int i = 0; i < newLetters.size(); i++) {
-        if (i == newLetters.size() - 1) {
-          if (bordersRight(gameBoard, newLetters.get(i))) {
-            ArrayList<Location> arrLoc = traverseRight(newLetters.get(i), gameBoard);
-            ArrayList<Character> word = getWord(gameBoard, arrLoc);
-            String str = arraytoString(word);
-            allNewWords.add(str);
-          }
-        }
-        if (i == 0) {
-          if (bordersLeft(gameBoard, newLetters.get(i))) {
-            ArrayList<Location> arrLoc = traverseLeft(newLetters.get(i), gameBoard);
-            ArrayList<Character> word = getWord(gameBoard, arrLoc);
-            String str = arraytoString(word);
-            allNewWords.add(str);
-          }
-        }
-        if (bordersTop(gameBoard, newLetters.get(i))) {
-          ArrayList<Location> arrLoc = traverseUp(newLetters.get(i), gameBoard);
-          ArrayList<Character> word = getWord(gameBoard, arrLoc);
-          String str = arraytoString(word);
-          allNewWords.add(str);
-        }
-        if (bordersBottom(gameBoard, newLetters.get(i))) {
-          ArrayList<Location> arrLoc = traverseDown(newLetters.get(i), gameBoard);
-          ArrayList<Character> word = getWord(gameBoard, arrLoc);
-          String str = arraytoString(word);
-          allNewWords.add(str);
-        }
-      }
-    }
-    else if (isVertical(newLetters)) {
-      for (int i = 0; i < newLetters.size(); i++) {
-        if (bordersRight(gameBoard, newLetters.get(i))) {
-          ArrayList<Location> arrLoc = traverseRight(newLetters.get(i), gameBoard);
-          ArrayList<Character> word = getWord(gameBoard, arrLoc);
-          String str = arraytoString(word);
-          allNewWords.add(str);
-        }
-      
-        if (bordersLeft(gameBoard, newLetters.get(i))) {
-          ArrayList<Location> arrLoc = traverseLeft(newLetters.get(i), gameBoard);
-          ArrayList<Character> word = getWord(gameBoard, arrLoc);
-          String str = arraytoString(word);
-          allNewWords.add(str);
-        }
-      
-        if (i == newLetters.size() - 1) {
-          if (bordersTop(gameBoard, newLetters.get(i))) {
-            ArrayList<Location> arrLoc = traverseUp(newLetters.get(i), gameBoard);
-            ArrayList<Character> word = getWord(gameBoard, arrLoc);
-            String str = arraytoString(word);
-            allNewWords.add(str);
-          }
-        }
-        //if (i == 0 || i == newLetters.size() - 1) {
-        if (i == 0) {
-          if (bordersBottom(gameBoard, newLetters.get(i))) {
-            ArrayList<Location> arrLoc = traverseDown(newLetters.get(i), gameBoard);
-            ArrayList<Character> word = getWord(gameBoard, arrLoc);
-            String str = arraytoString(word);
-            allNewWords.add(str);
-          }
-        }
-      }
-    }
-    return allNewWords;
-  }
-  
-  
-
-  public ArrayList<Location> traverseUp(Location loc, Board gameBoard) {
+/**
+ * This function starts with a given location and traverses all the way up
+ * while there are still letters in that direction
+ * @param loc
+ * @param gameBoard
+ * @return a list of locations on the traversal up 
+ */
+  public List<Location> traverseUp(Location loc, Board gameBoard) {
     int i = 0;
-    ArrayList<Location> retLoc = new ArrayList<Location>();
+    List<Location> retLoc = new ArrayList<>();
 
     while (loc.getY() + i < 15) {
       if (gameBoard.getChar(loc.getX(), loc.getY() + i) != ' ') {
@@ -363,9 +383,16 @@ public class Game {
     return retLoc;
   }
 
-  public ArrayList<Location> traverseDown(Location loc, Board gameBoard) {
+  /**
+   * This function starts with a given location and traverses all the way down
+   * while there are still letters in that direction
+   * @param loc
+   * @param gameBoard
+   * @return a list of locations on the traversal down 
+   */
+  public List<Location> traverseDown(Location loc, Board gameBoard) {
     int i = 0;
-    ArrayList<Location> retLoc = new ArrayList<Location>();
+    List<Location> retLoc = new ArrayList<>();
 
     while (loc.getY() - i >= 0) {
       if (gameBoard.getChar(loc.getX(), loc.getY() - i) != ' ') {
@@ -376,9 +403,16 @@ public class Game {
     return retLoc;
   }
 
-  public ArrayList<Location> traverseRight(Location loc, Board gameBoard) {
+  /**
+   * This function starts with a given location and traverses right
+   * while there are still letters in that direction
+   * @param loc
+   * @param gameBoard
+   * @return a list of locations on the traversal to the right 
+   */
+  public List<Location> traverseRight(Location loc, Board gameBoard) {
     int i = 0;
-    ArrayList<Location> retLoc = new ArrayList<Location>();
+    List<Location> retLoc = new ArrayList<>();
 
     while (loc.getX() + i < 15) {
       if (gameBoard.getChar(loc.getX() + i, loc.getY()) != ' ') {
@@ -389,9 +423,16 @@ public class Game {
     return retLoc;
   }
 
-  public ArrayList<Location> traverseLeft(Location loc, Board gameBoard) {
+  /**
+   * This function starts with a given location and traverses left
+   * while there are still letters in that direction
+   * @param loc
+   * @param gameBoard
+   * @return a list of locations on the traversal to the left 
+   */
+  public List<Location> traverseLeft(Location loc, Board gameBoard) {
     int i = 0;
-    ArrayList<Location> retLoc = new ArrayList<Location>();
+    List<Location> retLoc = new ArrayList<>();
 
     while (loc.getX() - i >= 0) {
       if (gameBoard.getChar(loc.getX() - i, loc.getY()) != ' ') {
@@ -402,15 +443,24 @@ public class Game {
     return retLoc;
   }
   
-  public int pointsForAll(ArrayList<String> words) {
+  /**
+   * 
+   * @param newWords a string of words played 
+   * @return the number of points for each word in the string 
+   */
+  public int pointsForAll(List<String> newWords) {
     int total = 0;
-    for (int i = 0; i < words.size(); i++) {
-      total += calculatePointsForWord(words.get(i));
+    for (int i = 0; i < newWords.size(); i++) {
+      total += calculatePointsForWord(newWords.get(i));
     }
     return total;
   }
 
-  // tested
+  /**
+   * 
+   * @param str A word 
+   * @return the number of points for one word 
+   */
   public int calculatePointsForWord(String str) {
     int totalPoints = 0;
     for (int i = 0; i < str.length(); i++) {
@@ -420,106 +470,60 @@ public class Game {
     return totalPoints;
   }
 
-  public boolean isHorizontal(ArrayList<Location> locArray) {
-    for (int i = 0; i < locArray.size() - 1; i++) {
-      //if (locArray.get(i).getX() == (locArray.get(i + 1).getX() - 1)
-       //   || (locArray.get(i).getX() == (locArray.get(i + 1).getX() + 1))) {
-        if (!(locArray.get(i).getY() == locArray.get(i + 1).getY())) {
-          return false;
-        }
-     // }
-    }
-    return true;
-  }
-
-  public boolean isVertical(ArrayList<Location> locArray) {
-    for (int i = 0; i < locArray.size() - 1; i++) {
-      if (!(locArray.get(i).getX() == locArray.get(i + 1).getX())) {
-        //if (locArray.get(i).getY() == (locArray.get(i + 1).getY() - 1)
-        //    || (locArray.get(i).getY() == (locArray.get(i + 1).getY() + 1))) {
-        //  return true;
-        //}
+  
+  /**
+   * 
+   * @param newLetters the list of locations of newly placed letters 
+   * @return if the word played is horizontal 
+   */
+  public boolean isHorizontal(List<Location> newLetters) {
+    for (int i = 0; i < newLetters.size() - 1; i++) {
+      if (newLetters.get(i).getY() != newLetters.get(i + 1).getY()) {
         return false;
       }
     }
     return true;
   }
 
-  public ArrayList<Location> traverseLeftCoordinates(ArrayList<Location> arrLoc, Board wholeBoard) {
-
-    ArrayList<Location> leftLetters = new ArrayList<Location>();
-    Location leftestLetter = getLeftLetter(arrLoc);
-    int i = 0;
-
-    while (leftestLetter.getX() - i >= 0) {
-      if (wholeBoard.getChar(leftestLetter.getX() - i, leftestLetter.getY()) != ' ') {
-        leftLetters.add(new Location(leftestLetter.getX() - i, leftestLetter.getY()));
+  /**
+   * 
+   * @param newLetters the list of locations of newly placed letters
+   * @return if the word played is vertical 
+   */
+  public boolean isVertical(List<Location> newLetters) {
+    for (int i = 0; i < newLetters.size() - 1; i++) {
+      if (newLetters.get(i).getX() != newLetters.get(i + 1).getX()) {
+        return false;
       }
-      i++;
     }
-    return leftLetters;
+    return true;
   }
 
-  public ArrayList<Location> traverseRightCoordinates(ArrayList<Location> arrLoc,
-      Board wholeBoard) {
-
-    ArrayList<Location> rightLetters = new ArrayList<Location>();
-    Location rightestLetter = getRightLetter(arrLoc);
-    int i = 0;
-
-    while (rightestLetter.getX() + i < 15) {
-      if (wholeBoard.getChar(rightestLetter.getX() + i, rightestLetter.getY()) != ' ') {
-        rightLetters.add(new Location(rightestLetter.getX() + i, rightestLetter.getY()));
-      }
-      i++;
-    }
-    return rightLetters;
-  }
-
-  public ArrayList<Location> traverseUpperCoordinates(ArrayList<Location> arrLoc,
-      Board wholeBoard) {
-
-    ArrayList<Location> upperLetters = new ArrayList<Location>();
-    Location topLetter = getTopLetter(arrLoc);
-    int i = 0;
-
-    while (topLetter.getY() + i < 15) {
-      if (wholeBoard.getChar(topLetter.getX(), topLetter.getY() + i) != ' ') {
-        upperLetters.add(new Location(topLetter.getX(), topLetter.getY() + i));
-      }
-      i++;
-    }
-    return upperLetters;
-  }
-
-  public ArrayList<Location> traverseLowerCoordinates(ArrayList<Location> arrLoc,
-      Board wholeBoard) {
-
-    ArrayList<Location> lowestLetters = new ArrayList<Location>();
-    Location bottomLetter = getBottomLetter(arrLoc);
-    int i = 0;
-
-    while (bottomLetter.getY() - i >= 0) {
-      if (wholeBoard.getChar(bottomLetter.getX(), bottomLetter.getY() - i) != ' ') {
-        lowestLetters.add(new Location(bottomLetter.getX(), bottomLetter.getY() - i));
-      }
-      i++;
-    }
-    return lowestLetters;
-  }
-
-  public void printArrayTiles(ArrayList<LetterTile> letterSet) {
+ /**
+  * Prints the list of letters played 
+  * @param letterSet
+  */
+  public void printArrayTiles(List<LetterTile> letterSet) {
     for (int i = 0; i < 15; i++) {
       System.out.println(letterSet.get(i).getLetter());
     }
   }
 
-  public void printChars(ArrayList<Character> arr) {
+  /**
+   * Prints the characters in an array 
+   * @param arr
+   */
+  public void printChars(List<Character> arr) {
     for (int i = 0; i < arr.size(); i++) {
       System.out.println(arr.get(i));
     }
   }
 
+  /**
+   * Prints the character at the x and y coordinate if the location 
+   * on the board is not empty 
+   * @param board
+   */
   public void printBoard(char[][] board) {
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -531,25 +535,41 @@ public class Game {
     }
   }
 
-  public ArrayList<Character> getWord(Board currentGameBoard, ArrayList<Location> locArray) {
-    ArrayList<Character> word = new ArrayList<Character>();
+  /**
+   * 
+   * @param currentGameBoard
+   * @param arrLoc
+   * @return an arraylist of c
+   */
+  public List<Character> getWord(Board currentGameBoard, List<Location> arrLoc) {
+    List<Character> word = new ArrayList<>();
 
-    for (int i = 0; i < locArray.size(); i++) {
-      word.add(currentGameBoard.getChar(locArray.get(i).getX(), locArray.get(i).getY()));
+    for (int i = 0; i < arrLoc.size(); i++) {
+      word.add(currentGameBoard.getChar(arrLoc.get(i).getX(), arrLoc.get(i).getY()));
     }
     return word;
   }
 
-  public String arraytoString(ArrayList<Character> letters) {
-    StringBuilder builder = new StringBuilder(letters.size());
-    for (Character ch : letters) {
+  /**
+   * 
+   * @param word
+   * @return a string that represents a list of characters 
+   */
+  public String arraytoString(List<Character> word) {
+    StringBuilder builder = new StringBuilder(word.size());
+    for (Character ch : word) {
       builder.append(ch);
     }
 
     return builder.toString().toLowerCase();
   }
   
-  public boolean allWords(ArrayList<String> words) {
+  /**
+   * 
+   * @param words
+   * @return if the string of words are all valid words in the dictionary 
+   */
+  public boolean allWords(List<String> words) {
     for (int i = 0; i < words.size(); i++) {
       String w = words.get(i).toLowerCase();
       System.out.println("Checking: " + w);
@@ -560,6 +580,11 @@ public class Game {
     return false;
   }
 
+  /**
+   *
+   * @param word
+   * @return if the dictionary contains the given word 
+   */
   public boolean isWord(String word) {
     if (dictionary.contains(word)) {
       return true;
@@ -567,9 +592,15 @@ public class Game {
     return false;
   }
 
-  public boolean checkWord(ArrayList<Location> locArray, Board currentGameBoard) {
+  /**
+   * 
+   * @param locArray
+   * @param currentGameBoard
+   * @return if the given list of locations forms a valid word
+   */
+  public boolean checkWord(List<Location> locArray, Board currentGameBoard) {
     boolean isWord = false;
-    ArrayList<Character> tempArray = new ArrayList<Character>();
+    List<Character> tempArray = new ArrayList<>();
     tempArray = getWord(currentGameBoard, locArray);
     String word = arraytoString(tempArray);
     if (isWord(word)) {
@@ -578,55 +609,87 @@ public class Game {
     return isWord;
   }
 
+  /**
+   * 
+   * @param previousGameBoard
+   * @param coordinates - A single location 
+   * @return if there is a letter bordering the left of the given location 
+   */
   public boolean bordersLeft(Board previousGameBoard, Location coordinates) {
     char c = previousGameBoard.getChar(coordinates.getX() - 1, coordinates.getY());
-    if (Character.isAlphabetic(c) == false) {
+    if (!Character.isAlphabetic(c)) {
       return false;
     }
     return true;
   }
-
+  
+  /**
+   * 
+   * @param previousGameBoard
+   * @param coordinates - A single location 
+   * @return if there is a letter bordering the right of the given location 
+   */
   public boolean bordersRight(Board previousGameBoard, Location coordinates) {
     char c = previousGameBoard.getChar(coordinates.getX() + 1, coordinates.getY());
-    if (Character.isAlphabetic(c) == false)  {
+    if (!Character.isAlphabetic(c))  {
       return false;
     }
     return true;
   }
 
+  /**
+   * 
+   * @param previousGameBoard
+   * @param coordinates - A single location 
+   * @return if there is a letter bordering the bottom of the given location 
+   */
   public boolean bordersBottom(Board previousGameBoard, Location coordinates) {
     char c = previousGameBoard.getChar(coordinates.getX(), coordinates.getY() - 1);
-    if (Character.isAlphabetic(c) == false) {
+    if (!Character.isAlphabetic(c)) {
       return false;
     }
     return true;
   }
 
+  /**
+   * 
+   * @param previousGameBoard
+   * @param coordinates - A single location 
+   * @return if there is a letter bordering the top of the given location  
+   */
   public boolean bordersTop(Board previousGameBoard, Location coordinates) {
     char c = previousGameBoard.getChar(coordinates.getX(), coordinates.getY() + 1);
-    if (Character.isAlphabetic(c) == false) {
+    if (!Character.isAlphabetic(c)) {
       return false;
     }
     return true;
   }
 
-  // if the word is vertical, get the coordinate of the top-most letter
-  public Location getTopLetter(ArrayList<Location> coords) {
+  /**
+   * The word must be vertical first 
+   * @param coordinates
+   * @return the coordinate of the top-most letter 
+   */
+  public Location getTopLetter(List<Location> coordinates) {
 
-    Location largest = coords.get(0);
+    Location largest = coordinates.get(0);
 
-    if (isVertical(coords)) {
-      for (int i = 0; i < coords.size(); i++) {
-        if (coords.get(i).getY() > largest.getY()) {
-          largest = coords.get(i);
+    if (isVertical(coordinates)) {
+      for (int i = 0; i < coordinates.size(); i++) {
+        if (coordinates.get(i).getY() > largest.getY()) {
+          largest = coordinates.get(i);
         }
       }
     }
     return largest;
   }
 
-  // if the word is vertical, get the coordinate of the bottom-most letter
-  public Location getBottomLetter(ArrayList<Location> coords) {
+  /**
+   * The word must be vertical first 
+   * @param coords
+   * @return the coordinate of the bottom-most letter 
+   */
+  public Location getBottomLetter(List<Location> coords) {
 
     Location smallest = coords.get(0);
 
@@ -640,8 +703,12 @@ public class Game {
     return smallest;
   }
 
-  // if the word is horizontal, get the coordinate of the left-most letter
-  public Location getLeftLetter(ArrayList<Location> coords) {
+  /**
+   * The word must be horizontal first 
+   * @param coords
+   * @return the coordinate of the left-most letter 
+   */
+  public Location getLeftLetter(List<Location> coords) {
 
     Location smallest = coords.get(0); // x-value
 
@@ -654,9 +721,14 @@ public class Game {
     }
     return smallest;
   }
-
-  // if the word is horizontal, get the coordinate of the right-most letter
-  public Location getRightLetter(ArrayList<Location> coords) {
+  
+  
+  /**
+   * The word must be horizontal first 
+   * @param coords
+   * @return the coordinate of the right-most letter 
+   */
+  public Location getRightLetter(List<Location> coords) {
 
     Location largest = coords.get(0);
 
@@ -670,7 +742,13 @@ public class Game {
     return largest;
   }
 
-  public boolean isAdjacentToAWord(Board previousGameBoard, ArrayList<Location> coordinates) {
+  /**
+   * 
+   * @param previousGameBoard
+   * @param coordinates placed on the board 
+   * @return if the list of letters played are played adjacent to already played letters
+   */
+  public boolean isAdjacentToAWord(Board previousGameBoard, List<Location> coordinates) {
 
     boolean isAdjacent = false;
 
@@ -700,8 +778,15 @@ public class Game {
     return isAdjacent;
   }
 
-  public boolean playedFromRack(Player p, ArrayList<Location> coordinates, Board currentGameBoard) {
-    ArrayList<Character> temp = getWord(currentGameBoard, coordinates);
+  /**
+   * 
+   * @param p Player 
+   * @param coordinates list of locations of new letters 
+   * @param currentGameBoard
+   * @return if the letters played are contained in the player's rack 
+   */
+  public boolean playedFromRack(Player p, List<Location> coordinates, Board currentGameBoard) {
+    List<Character> temp = getWord(currentGameBoard, coordinates);
     boolean flag = true;
 
     for (int i = 0; i < temp.size(); i++) {
@@ -717,27 +802,15 @@ public class Game {
     return flag;
   }
 
-  public boolean isValid(Player p, ArrayList<Location> coordinates, Board previousGameBoard) {
-    if (playedFromRack(p, coordinates, previousGameBoard)
-        && isAdjacentToAWord(previousGameBoard, coordinates)
-        && checkWord(coordinates, previousGameBoard)) {
-      return true;
-    }
-    return false;
-  }
-
-  public boolean isValidMovePlayerOne(Player p, ArrayList<Location> coordinates,
-      Board previousGameBoard) {
-    if (playedFromRack(p, coordinates, previousGameBoard)
-        && checkWord(coordinates, previousGameBoard)) {
-      return true;
-    }
-    return false;
-  }
-  
-  public void replenishPlayerTiles(ArrayList<Character> playedLetters, Player p) {
-    for (int i = 0; i < playedLetters.size(); i++) {
-      char c = Character.toLowerCase(playedLetters.get(i));
+  /**
+   * Replenishes the player's rack
+   * Removes letters that the player played and adds letters from the bag 
+   * @param charsEntered
+   * @param p player 
+   */
+  public void replenishPlayerTiles(List<Character> charsEntered, Player p) {
+    for (int i = 0; i < charsEntered.size(); i++) {
+      char c = Character.toLowerCase(charsEntered.get(i));
       p.deleteTile(c);
     }
    while (p.getPlayerSetSize() < 7) {
