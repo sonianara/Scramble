@@ -36,14 +36,14 @@ public class TileSet {
     for (char tempLetter = 'a'; tempLetter <= 'z'; tempLetter++) {
       switch (tempLetter) {
       case 'a':
+      case 'i':
         numLettersMap.put(tempLetter, 9);
         letterValueMap.put(tempLetter, 1);
         break;
       case 'b':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 3);
-        break;
       case 'c':
+      case 'm':
+      case 'p':
         numLettersMap.put(tempLetter, 2);
         letterValueMap.put(tempLetter, 3);
         break;
@@ -56,6 +56,10 @@ public class TileSet {
         letterValueMap.put(tempLetter, 1);
         break;
       case 'f':
+      case 'h':
+      case 'v':
+      case 'w':
+      case 'y':
         numLettersMap.put(tempLetter, 2);
         letterValueMap.put(tempLetter, 4);
         break;
@@ -63,15 +67,8 @@ public class TileSet {
         numLettersMap.put(tempLetter, 3);
         letterValueMap.put(tempLetter, 2);
         break;
-      case 'h':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 4);
-        break;
-      case 'i':
-        numLettersMap.put(tempLetter, 9);
-        letterValueMap.put(tempLetter, 1);
-        break;
       case 'j':
+      case 'x':
         numLettersMap.put(tempLetter, 1);
         letterValueMap.put(tempLetter, 8);
         break;
@@ -80,14 +77,14 @@ public class TileSet {
         letterValueMap.put(tempLetter, 5);
         break;
       case 'l':
+      case 's':
+      case 'u':
         numLettersMap.put(tempLetter, 4);
         letterValueMap.put(tempLetter, 1);
         break;
-      case 'm':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 3);
-        break;
       case 'n':
+      case 'r':
+      case 't':
         numLettersMap.put(tempLetter, 6);
         letterValueMap.put(tempLetter, 1);
         break;
@@ -95,46 +92,7 @@ public class TileSet {
         numLettersMap.put(tempLetter, 8);
         letterValueMap.put(tempLetter, 1);
         break;
-      case 'p':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 3);
-        break;
       case 'q':
-        numLettersMap.put(tempLetter, 1);
-        letterValueMap.put(tempLetter, 10);
-        break;
-      case 'r':
-        numLettersMap.put(tempLetter, 6);
-        letterValueMap.put(tempLetter, 1);
-        break;
-      case 's':
-        numLettersMap.put(tempLetter, 4);
-        letterValueMap.put(tempLetter, 1);
-        break;
-      case 't':
-        numLettersMap.put(tempLetter, 6);
-        letterValueMap.put(tempLetter, 1);
-        break;
-      case 'u':
-        numLettersMap.put(tempLetter, 4);
-        letterValueMap.put(tempLetter, 1);
-        break;
-      case 'v':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 4);
-        break;
-      case 'w':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 4);
-        break;
-      case 'x':
-        numLettersMap.put(tempLetter, 1);
-        letterValueMap.put(tempLetter, 8);
-        break;
-      case 'y':
-        numLettersMap.put(tempLetter, 2);
-        letterValueMap.put(tempLetter, 4);
-        break;
       case 'z':
         numLettersMap.put(tempLetter, 1);
         letterValueMap.put(tempLetter, 10);
