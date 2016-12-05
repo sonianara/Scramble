@@ -19,6 +19,7 @@ import java.util.HashSet;
  */
 public class DictionarySearch {
 
+  
   // The dictionary for the application.
   Set<String> dictionary = new HashSet<>();
 
