@@ -376,7 +376,7 @@ public class Main extends Application {
     wordHistory.setPadding(new Insets(150, 0, 0, 20));
     biggerLayout.getChildren().addAll(bigLayout, wordHistory);
     biggerLayout.setStyle(transparentBackground);
-    primaryStage.setScene(new Scene(biggerLayout, 800, 800, Color.LIGHTSKYBLUE));
+    primaryStage.setScene(new Scene(biggerLayout, 900, 800, Color.LIGHTSKYBLUE));
     primaryStage.show();
   }
 
