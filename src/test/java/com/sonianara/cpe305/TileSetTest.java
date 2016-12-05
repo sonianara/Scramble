@@ -27,7 +27,7 @@ public class TileSetTest {
   @Test
   public void TestGetFullSetNotNull() {
     TileSet randomLetters = new TileSet();
-    ArrayList<LetterTile> fullSet = randomLetters.getFullSet();
+    ArrayList<LetterTile> fullSet = (ArrayList<LetterTile>) randomLetters.getFullSet();
     assertNotNull(fullSet);
 
   }

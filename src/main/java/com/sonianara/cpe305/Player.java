@@ -1,6 +1,7 @@
 package com.sonianara.cpe305;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents an individual player 
@@ -74,10 +75,10 @@ public class Player {
 
   /**
    * This method sets the player's set of tiles
-   * @param newSet
+   * @param list
    */
-  public void setPlayerSet(ArrayList<LetterTile> newSet) {
-    playerSet = newSet;
+  public void setPlayerSet(List<LetterTile> list) {
+    playerSet = (ArrayList<LetterTile>) list;
   }
 
   /**

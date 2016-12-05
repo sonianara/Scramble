@@ -380,6 +380,10 @@ public class Main extends Application {
     primaryStage.show();
   }
 
+  /**
+   * This function disables the text field grid whenever a user
+   * performs a successful move
+   */
   public void disableGridSquares() {
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -391,6 +395,10 @@ public class Main extends Application {
   }
 
 
+  /**
+   * This function creates the score board
+   * @return VBox containing the score board
+   */
   public VBox createScoreBoard() {
     VBox scoreBox = new VBox();
     scoreLabels[0] = new Label("Scores");
@@ -407,6 +415,10 @@ public class Main extends Application {
     return scoreBox;
   }
 
+  /**
+   * This function prints out a board for debugging purposes
+   * @param newBoard textfield grid 
+   */
   public void printNewBoard(char[][] newBoard) {
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -418,12 +430,22 @@ public class Main extends Application {
     }
   }
 
-  // Change the font and font size of any node
+  /**
+   * Change the font and size of any node
+   * @param n node
+   */
   public void changeTexts(Node n) {
     n.setStyle("" + "-fx-font-size: 30px;" + "-fx-font-family: Cambria;");
   }
 
-  // Get the number of players in the game
+  /**
+   * Get the number of players in the game
+   * @param p1 player 1
+   * @param p2 player 2
+   * @param p3 player 3
+   * @param p4 player 4
+   * @return the number of players
+   */
   public int getNumPlayers(TextField p1, TextField p2, TextField p3, TextField p4) {
     int numPlayers = 0;
     if (!p1.getText().isEmpty()) {

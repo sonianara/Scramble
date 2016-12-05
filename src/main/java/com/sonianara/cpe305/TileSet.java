@@ -3,6 +3,8 @@ package com.sonianara.cpe305;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -18,19 +20,17 @@ import java.util.Random;
 public class TileSet {
   private int numLetters;
   private ArrayList<LetterTile> letters;
-  private HashMap<Character, Integer> numLettersMap;
-  public static HashMap<Character, Integer> letterValueMap;
+  private Map<Character, Integer> numLettersMap;
+  public static Map<Character, Integer> letterValueMap;
 
-  
-  
   /**
    * This class represents the bag of letters tiles that exists for one game
    */
   public TileSet() {
     System.out.println("Testing");
-    numLettersMap = new HashMap<Character, Integer>();
-    letterValueMap = new HashMap<Character, Integer>();
-    letters = new ArrayList<LetterTile>();
+    numLettersMap = new HashMap<>();
+    letterValueMap = new HashMap<>();
+    letters = new ArrayList<>();
     numLetters = 0;
 
     for (char tempLetter = 'a'; tempLetter <= 'z'; tempLetter++) {
@@ -97,6 +97,8 @@ public class TileSet {
         numLettersMap.put(tempLetter, 1);
         letterValueMap.put(tempLetter, 10);
         break;
+      default:
+        break;
       }
 
     }
@@ -154,10 +156,10 @@ public class TileSet {
    * 
    * @return a set of 7 random letters
    */
-  public ArrayList<LetterTile> getFullSet() {
+  public List<LetterTile> getFullSet() {
     if (numLetters < 7)
       return null;
-    ArrayList<LetterTile> newLetters = new ArrayList<LetterTile>();
+    List<LetterTile> newLetters = new ArrayList<>();
     for (int i = 0; i < 7; i++) {
       newLetters.add(letters.remove(0));
       numLetters--;
@@ -170,7 +172,7 @@ public class TileSet {
    * @param letterSet - An array list of letter tiles 
    * @return whether the arraylist is empty
    */
-  public boolean isEmpty(ArrayList<LetterTile> letterSet) {
+  public boolean isEmpty(List<LetterTile> letterSet) {
     if (letterSet.isEmpty()) {
       return true;
     }
@@ -181,7 +183,7 @@ public class TileSet {
    * 
    * @return the bag of letters
    */
-  public ArrayList<LetterTile> getBagOfLetters() {
+  public List<LetterTile> getBagOfLetters() {
     return letters;
   }
 
@@ -197,7 +199,7 @@ public class TileSet {
    * 
    * @return an array list of random letter tiles 
    */
-  public ArrayList<LetterTile> removeRandomLetters() {
+  public List<LetterTile> removeRandomLetters() {
     return letters;
   }
 
