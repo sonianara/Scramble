@@ -18,15 +18,17 @@ import java.util.Random;
  */
 
 public class TileSet {
+  
   private int numLetters;
   private ArrayList<LetterTile> letters;
   private Map<Character, Integer> numLettersMap;
   public static Map<Character, Integer> letterValueMap;
+  private static TileSet instance;
 
   /**
    * This class represents the bag of letters tiles that exists for one game
    */
-  public TileSet() {
+  private TileSet() {
     System.out.println("Testing");
     numLettersMap = new HashMap<>();
     letterValueMap = new HashMap<>();
@@ -124,6 +126,17 @@ public class TileSet {
     long seed = System.nanoTime();
     Collections.shuffle(letters, new Random(seed));
 
+  }
+  
+  /**
+   * Implementing the Singleton get instance function
+   * @return the TileSet object 
+   */
+  public static TileSet getInstance() {
+    if (instance == null) {
+      instance = new TileSet();
+    }
+    return instance;
   }
 
   /**

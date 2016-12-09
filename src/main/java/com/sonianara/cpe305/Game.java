@@ -14,8 +14,9 @@ public class Game {
   int boardSize = 15;
 
   private Board mainBoard;
-  private TileSet tileSet;
+  TileSet tileSet = TileSet.getInstance();
   private DictionarySearch dictionary;
+
 
   /**
    * This constructor represents the initialization
@@ -25,7 +26,6 @@ public class Game {
 
     this.mainBoard = new Board();
     // Initialize a unique TileSet for each game
-    this.tileSet = new TileSet();
 
     this.dictionary = new DictionarySearch("words.txt");
 

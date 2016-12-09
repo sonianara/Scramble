@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class LetterTileTest {
 
-  TileSet ts = new TileSet();
+  TileSet ts = TileSet.getInstance();
 
   @Test
   public void TestLetterNotNull() {

@@ -27,7 +27,7 @@ public class TileSetTest {
    */
   @Test
   public void TestGetFullSetNotNull() {
-    TileSet randomLetters = new TileSet();
+    TileSet randomLetters = TileSet.getInstance();
     ArrayList<LetterTile> fullSet = (ArrayList<LetterTile>) randomLetters.getFullSet();
     assertNotNull(fullSet);
 
@@ -39,7 +39,7 @@ public class TileSetTest {
    */
   @Test
   public void TestGetFullSetGetLetterChar() {
-    TileSet randomLetters = new TileSet();
+    TileSet randomLetters = TileSet.getInstance();
     for (LetterTile letter : randomLetters.getFullSet()) {
       assertTrue(letter.getLetter() >= 0);
     }
