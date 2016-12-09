@@ -51,6 +51,6 @@ public class LetterTileTest {
   }
 
   public static void main(String[] args) {
-    org.junit.runner.JUnitCore.main("LetterTest");
+    org.junit.runner.JUnitCore.main("LetterTileTest");
   }
 }

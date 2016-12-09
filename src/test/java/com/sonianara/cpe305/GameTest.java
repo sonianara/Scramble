@@ -215,6 +215,34 @@ public class GameTest {
   }
   
   @Test
+  public void TestMakeFinalMove4() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+ 
+   
+    Player p = new Player();
+    LetterTile lt = new LetterTile('a');
+    LetterTile lt1 = new LetterTile('b');
+    LetterTile lt2 = new LetterTile('c');
+    LetterTile lt3 = new LetterTile('d');
+    LetterTile lt4 = new LetterTile('e');
+    LetterTile lt5 = new LetterTile('f');
+    LetterTile lt6 = new LetterTile('_');
+    
+    List<LetterTile> tileList = new ArrayList<LetterTile>();
+    tileList.add(lt);
+    tileList.add(lt1);
+    tileList.add(lt2);
+    tileList.add(lt3);
+    tileList.add(lt4);
+    tileList.add(lt5);
+    tileList.add(lt6);
+    
+    p.setPlayerSet(tileList);
+    assertEquals(false, game.makeFinalMove(board, p));
+  }
+  
+  @Test
   public void TestGetBottom() {
     char[][] board = new char[15][15];
     game.instantiateBoard(board);
@@ -257,6 +285,123 @@ public class GameTest {
     chars.add('s');
 
     assertEquals(chars, game.getEnteredLetters(myList, board));
+  }
+  
+  @Test
+  public void TestMakeFinalMove5() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+    board[8][8] = 'p';
+    board[8][9] = 'a';
+    board[8][10] = 'k';
+    board[8][11] = 'z';
+    board[8][12] = 'h';
+ 
+   
+    Player p = new Player();
+    LetterTile lt = new LetterTile('a');
+    LetterTile lt1 = new LetterTile('b');
+    LetterTile lt2 = new LetterTile('c');
+    LetterTile lt3 = new LetterTile('d');
+    LetterTile lt4 = new LetterTile('e');
+    LetterTile lt5 = new LetterTile('f');
+    LetterTile lt6 = new LetterTile('_');
+    
+    List<LetterTile> tileList = new ArrayList<LetterTile>();
+    tileList.add(lt);
+    tileList.add(lt1);
+    tileList.add(lt2);
+    tileList.add(lt3);
+    tileList.add(lt4);
+    tileList.add(lt5);
+    tileList.add(lt6);
+    
+    p.setPlayerSet(tileList);
+    assertEquals(false, game.makeFinalMove(board, p));
+  }
+  
+  @Test
+  public void TestBorderTop() {
+    Board b = new Board();
+    b.setChar('a', 9, 9);
+    Location l = new Location(9, 8);
+    assertEquals(true, game.bordersTop(b, l));
+  }
+  
+  @Test
+  public void TestBorderBottom() {
+    Board b = new Board();
+    b.setChar('a', 9, 9);
+    Location l = new Location(9, 10);
+    assertEquals(true, game.bordersBottom(b, l));
+  }
+  
+  @Test
+  public void TestBorderLeft() {
+    Board b = new Board();
+    b.setChar('a', 9, 9);
+    Location l = new Location(10, 9);
+    assertEquals(true, game.bordersLeft(b, l));
+  }
+  
+  @Test
+  public void TestBorderRight() {
+    Board b = new Board();
+    b.setChar('a', 9, 9);
+    Location l = new Location(8, 9);
+    assertEquals(true, game.bordersRight(b, l));
+  }
+  
+  @Test
+  public void TestGetTop2() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(8, 9);
+    Location loc3 = new Location(8, 10);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    
+    assertEquals(loc3, game.getTopLetter(myList));
+  }
+  
+  @Test
+  public void TestGetBottom2() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(8, 9);
+    Location loc3 = new Location(8, 10);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    
+    assertEquals(loc1, game.getBottomLetter(myList)); 
+  }
+  
+  @Test
+  public void TestGetRight2() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(9, 8);
+    Location loc3 = new Location(10, 8);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    
+    assertEquals(loc3, game.getRightLetter(myList));  
+  }
+  
+  @Test
+  public void TestGetLeft2() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(9, 8);
+    Location loc3 = new Location(10, 8);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    
+    assertEquals(loc1, game.getLeftLetter(myList));  
   }
   
   @Test 
