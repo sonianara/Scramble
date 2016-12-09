@@ -50,7 +50,7 @@ public class DictionarySearch {
   public void createDictionary(String fileName) {
     Scanner scanner = null;
     Scanner scanner2 = null;
-    // Makes sure file exists
+
     try {
       scanner = new Scanner(new File(fileName));
 

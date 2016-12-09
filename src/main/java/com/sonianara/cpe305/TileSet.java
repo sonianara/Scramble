@@ -22,7 +22,7 @@ public class TileSet {
   private int numLetters;
   private ArrayList<LetterTile> letters;
   private Map<Character, Integer> numLettersMap;
-  public static Map<Character, Integer> letterValueMap;
+  private static final Map<Character, Integer> letterValueMap = new HashMap<>();
   private static TileSet instance;
 
   /**
@@ -31,7 +31,7 @@ public class TileSet {
   private TileSet() {
     System.out.println("Testing");
     numLettersMap = new HashMap<>();
-    letterValueMap = new HashMap<>();
+    //letterValueMap = new HashMap<>();
     letters = new ArrayList<>();
     numLetters = 0;
 
