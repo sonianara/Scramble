@@ -137,6 +137,88 @@ public class GameTest {
     assertEquals(chars, game.getEnteredLetters(myList, board));
   }
   
+  @Test 
+  public void TestCalcPointsForWord() {
+    String str = "word";
+    assertEquals(8, game.calculatePointsForWord(str));
+  }
+  
+  @Test
+  public void TestPointsForAll() {
+    String s1 = "one";
+    String s2 = "two";
+    String s3 = "three";
+    List<String> newWords = new ArrayList<>();
+    newWords.add(s1);
+    newWords.add(s2);
+    newWords.add(s3);
+    assertEquals(17, game.pointsForAll(newWords));
+  }
+  
+  @Test
+  public void TestCheckValidityOfWords() {
+    String s1 = "one";
+    String s2 = "two";
+    String s3 = "three";
+    List<String> newWords = new ArrayList<>();
+    newWords.add(s1);
+    newWords.add(s2);
+    newWords.add(s3);
+    assertEquals(true, game.checkValidityOfWords(newWords));
+  }
+  
+  @Test 
+  public void testContainsBlankLetters() {
+    Player p = new Player();
+    LetterTile lt = new LetterTile('a');
+    LetterTile lt1 = new LetterTile('b');
+    LetterTile lt2 = new LetterTile('c');
+    LetterTile lt3 = new LetterTile('d');
+    LetterTile lt4 = new LetterTile('e');
+    LetterTile lt5 = new LetterTile('f');
+    LetterTile lt6 = new LetterTile('_');
+    
+    List<LetterTile> tileList = new ArrayList<LetterTile>();
+    tileList.add(lt);
+    tileList.add(lt1);
+    tileList.add(lt2);
+    tileList.add(lt3);
+    tileList.add(lt4);
+    tileList.add(lt5);
+    tileList.add(lt6);
+    
+    p.setPlayerSet(tileList);
+    char c1 = 'a';
+    char c2 = 'b';
+    char c3 = '_';
+    List<Character> noBlanks = new ArrayList<Character>();
+    noBlanks.add(c1);
+    noBlanks.add(c2);
+    noBlanks.add(c3);
+    List <Character> yesBlanks = new ArrayList<Character>();
+    char c4 = 'z';
+    yesBlanks.add(c1);
+    yesBlanks.add(c2);
+    yesBlanks.add(c3);
+    yesBlanks.add(c4);
+    assertEquals(0, game.isBlankLetter(noBlanks, p));
+    assertEquals(1, game.isBlankLetter(yesBlanks, p));
+  }
+  
+  @Test
+  public void TestContainsBlank() {
+    char c1 = 'a';
+    char c2 = 'b';
+    char c3 = '_';
+    char c4 = '_';
+    List<Character> noBlanks = new ArrayList<Character>();
+    noBlanks.add(c1);
+    noBlanks.add(c2);
+    noBlanks.add(c3);
+    noBlanks.add(c4);
+    assertEquals(2, game.containsBlankLetters(noBlanks));
+  }
+  
 
   public static void main(String[] args) {
     org.junit.runner.JUnitCore.main("GameTest");

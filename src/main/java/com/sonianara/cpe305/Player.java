@@ -113,7 +113,7 @@ public class Player {
    * prints the player's set of tiles 
    * @param playerSet
    */
-  public void printPlayerSet(ArrayList<LetterTile> playerSet) {
+  public void printPlayerSet(List<LetterTile> playerSet) {
     for (LetterTile lt : playerSet) {
       System.out.print(lt.getLetter() + " ");
     }
@@ -124,7 +124,7 @@ public class Player {
    * @param playerSet
    * @return a random character 
    */
-  public char getOneLetter(ArrayList<LetterTile> playerSet) {
+  public char getOneLetter(List<LetterTile> playerSet) {
     return (playerSet.remove(0)).getLetter();
   }
 }
