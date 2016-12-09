@@ -16,13 +16,14 @@ public class Game {
   private Board mainBoard;
   TileSet tileSet = TileSet.getInstance();
   private DictionarySearch dictionary;
+  private static Game instance;
 
 
   /**
    * This constructor represents the initialization
    * of a board, a bag of tiles, and the dictionary 
    */
-  public Game() {
+  private Game() {
 
     this.mainBoard = new Board();
     // Initialize a unique TileSet for each game
@@ -37,6 +38,17 @@ public class Game {
   
   public DictionarySearch getDictionary() {
     return dictionary;
+  }
+  
+  /**
+   * Implementing the Singleton get instance function
+   * @return the Game object 
+   */
+  public static Game getInstance() {
+    if (instance == null) {
+      instance = new Game();
+    }
+    return instance;
   }
   
   /**

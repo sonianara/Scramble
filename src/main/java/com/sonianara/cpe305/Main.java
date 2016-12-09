@@ -157,7 +157,7 @@ public class Main extends Application {
       @Override
       public void handle(ActionEvent event) {
 
-        game = new Game();
+        game = Game.getInstance();
 
         int numPlayers = getNumPlayers(firstPlayerTxt, secondPlayerTxt, thirdPlayerTxt,
             fourthPlayerTxt);

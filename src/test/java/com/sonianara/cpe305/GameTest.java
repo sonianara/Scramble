@@ -8,14 +8,14 @@ import java.util.*;
 
 
 public class GameTest {
-  Game game = new Game();
+  Game game = Game.getInstance();
 
   @Test
   public void TestConstructor() {
     assertNotNull(game);
   }
   
-  /*
+  
   @Test
   public void TestCheckWord() {
     char[][] board = new char[15][15];
@@ -136,7 +136,7 @@ public class GameTest {
 
     assertEquals(chars, game.getEnteredLetters(myList, board));
   }
-  */
+  
 
   public static void main(String[] args) {
     org.junit.runner.JUnitCore.main("GameTest");
