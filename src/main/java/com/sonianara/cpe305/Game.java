@@ -65,6 +65,18 @@ public class Game {
   }
   
   /**
+   * Instantiate a char board to all empty spots
+   * @param b board
+   */
+  public void instantiateBoard(char [][] b) {
+    for (int i = 0; i < 15; i++) {
+      for (int j = 0; j < 15; j++) {
+        b[i][j] = ' ';
+      }
+    }
+  }
+  
+  /**
    * This function returns the location of the leftmost letter
    * @param locArray the list of locations of the new letters
    * @param board
