@@ -361,88 +361,6 @@ public class Game {
     }
     return false;
   }
- 
-
-  /*
-/**
- * This function starts with a given location and traverses all the way up
- * while there are still letters in that direction
- * @param loc
- * @param gameBoard
- * @return a list of locations on the traversal up 
- */
-  public List<Location> traverseUp(Location loc, Board gameBoard) {
-    int i = 0;
-    List<Location> retLoc = new ArrayList<>();
-
-    while (loc.getY() + i < 15) {
-      if (gameBoard.getChar(loc.getX(), loc.getY() + i) != ' ') {
-        retLoc.add(new Location(loc.getX(), loc.getY() + i));
-      }
-      i++;
-    }
-    return retLoc;
-  }
-
-  /**
-   * This function starts with a given location and traverses all the way down
-   * while there are still letters in that direction
-   * @param loc
-   * @param gameBoard
-   * @return a list of locations on the traversal down 
-   */
-  public List<Location> traverseDown(Location loc, Board gameBoard) {
-    int i = 0;
-    List<Location> retLoc = new ArrayList<>();
-
-    while (loc.getY() - i >= 0) {
-      if (gameBoard.getChar(loc.getX(), loc.getY() - i) != ' ') {
-        retLoc.add(new Location(loc.getX(), loc.getY() - i));
-      }
-      i++;
-    }
-    return retLoc;
-  }
-
-  /**
-   * This function starts with a given location and traverses right
-   * while there are still letters in that direction
-   * @param loc
-   * @param gameBoard
-   * @return a list of locations on the traversal to the right 
-   */
-  public List<Location> traverseRight(Location loc, Board gameBoard) {
-    int i = 0;
-    List<Location> retLoc = new ArrayList<>();
-
-    while (loc.getX() + i < 15) {
-      if (gameBoard.getChar(loc.getX() + i, loc.getY()) != ' ') {
-        retLoc.add(new Location(loc.getX() + i, loc.getY()));
-      }
-      i++;
-    }
-    return retLoc;
-  }
-
-  /**
-   * This function starts with a given location and traverses left
-   * while there are still letters in that direction
-   * @param loc
-   * @param gameBoard
-   * @return a list of locations on the traversal to the left 
-   */
-  public List<Location> traverseLeft(Location loc, Board gameBoard) {
-    int i = 0;
-    List<Location> retLoc = new ArrayList<>();
-
-    while (loc.getX() - i >= 0) {
-      if (gameBoard.getChar(loc.getX() - i, loc.getY()) != ' ') {
-        retLoc.add(new Location(loc.getX() - i, loc.getY()));
-      }
-      i++;
-    }
-    return retLoc;
-  }
   
   /**
    * 
@@ -555,22 +473,6 @@ public class Game {
       return true;
     }
     return false;
-  }
-
-  /**
-   * 
-   * @param locArray
-   * @param currentGameBoard
-   * @return if the given list of locations forms a valid word
-   */
-  public boolean checkWord(List<Location> locArray, Board currentGameBoard) {
-    boolean isWord = false;
-    List<Character>tempArray = getWord(currentGameBoard, locArray);
-    String word = arraytoString(tempArray);
-    if (isWord(word)) {
-      isWord = true;
-    }
-    return isWord;
   }
 
   /**
