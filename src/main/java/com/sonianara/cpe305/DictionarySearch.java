@@ -21,13 +21,26 @@ public class DictionarySearch {
 
   
   // The dictionary for the application.
+  private static DictionarySearch instance;
   Set<String> dictionary = new HashSet<>();
 
   /**
    * @param fileName A file that contains all the words in the dictionary 
    */
-  public DictionarySearch(String fileName) {
+  private DictionarySearch(String fileName) {
     createDictionary(fileName);
+  }
+  
+  
+  /**
+   * Implementing the Singleton get instance function
+   * @return the DictionarySearch object 
+   */
+  public static DictionarySearch getInstance() {
+    if (instance == null) {
+      instance = new DictionarySearch("words.txt");
+    }
+    return instance;
   }
 
   /**

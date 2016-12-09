@@ -28,7 +28,7 @@ public class Game {
     this.mainBoard = new Board();
     // Initialize a unique TileSet for each game
 
-    this.dictionary = new DictionarySearch("words.txt");
+    this.dictionary = DictionarySearch.getInstance();
 
   }
 
