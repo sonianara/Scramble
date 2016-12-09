@@ -170,6 +170,7 @@ public class Game {
     return allMyNewWords(newLetters, gameBoard);
   }
   
+  
   /**
    * 
    * @param currentBoard with the new location of letters 
