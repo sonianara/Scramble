@@ -219,6 +219,25 @@ public class GameTest {
     assertEquals(2, game.containsBlankLetters(noBlanks));
   }
   
+  @Test
+  public void TestAllMyNewWords() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(9, 8);
+    Location loc3 = new Location(10, 8);
+    board[8][8] = 'p';
+    board[9][8] = 'a';
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    List<String> myWords = new ArrayList<>();
+    String str = "pa";
+    myWords.add(str);
+    assertEquals(myWords, game.allMyNewWords(myList, board));
+  }
+  
 
   public static void main(String[] args) {
     org.junit.runner.JUnitCore.main("GameTest");

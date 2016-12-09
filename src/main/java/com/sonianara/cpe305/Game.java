@@ -292,18 +292,6 @@ public class Game {
       
       return retString;
     }
-
-
-  /**
-   * Prints out the string
-   * Used for debugging purposes
-   * @param str list of strings
-   */
-  public void printString(List<String> str) {
-    for (int i = 0; i < str.size(); i++) {
-      System.out.println("word: " + str.get(i));
-    }
-  }
   
   /**
    * This function checks all possible horizontal words 
@@ -373,20 +361,7 @@ public class Game {
     }
     return false;
   }
-  
-  /**
-   * Print the game board 
-   * @param board
-   */
-  public void printGameBoard(Board board) {
-    for (int i = 0; i < 15; i++) {
-      for (int j = 0; j < 15; j++) {
-        if (Character.isAlphabetic(board.getChar(i, j))) {
-          System.out.println(board.getChar(i, j));
-        }
-      }
-    }
-  }
+ 
 
 /**
  * This function starts with a given location and traverses all the way up
@@ -522,42 +497,6 @@ public class Game {
       }
     }
     return true;
-  }
-
- /**
-  * Prints the list of letters played 
-  * @param letterSet
-  */
-  public void printArrayTiles(List<LetterTile> letterSet) {
-    for (int i = 0; i < 15; i++) {
-      System.out.println(letterSet.get(i).getLetter());
-    }
-  }
-
-  /**
-   * Prints the characters in an array 
-   * @param arr
-   */
-  public void printChars(List<Character> arr) {
-    for (int i = 0; i < arr.size(); i++) {
-      System.out.println(arr.get(i));
-    }
-  }
-
-  /**
-   * Prints the character at the x and y coordinate if the location 
-   * on the board is not empty 
-   * @param board
-   */
-  public void printBoard(char[][] board) {
-    for (int i = 0; i < 15; i++) {
-      for (int j = 0; j < 15; j++) {
-        if (board[i][j] != ' ') {
-          char c = board[i][j];
-          System.out.println(c);
-        }
-      }
-    }
   }
 
   /**
