@@ -229,6 +229,10 @@ public class Game {
     if (makemove) {
       mainBoard.setBoard(gameBoard);
       p.addPoints(points);
+      while (numOfBlankLetters > 0) {
+        p.deleteTile('_');
+        numOfBlankLetters--;
+      }
       replenishPlayerTiles(charsEntered, p);
     }
     return makemove;
@@ -677,7 +681,7 @@ public class Game {
   public void replenishPlayerTiles(List<Character> charsEntered, Player p) {
     for (int i = 0; i < charsEntered.size(); i++) {
       char c = Character.toLowerCase(charsEntered.get(i));
-      p.deleteTile(c);
+        p.deleteTile(c);
     }
    while (p.getPlayerSetSize() < 7) {
      p.getPlayerSet().add(tileSet.getRandomLetter());

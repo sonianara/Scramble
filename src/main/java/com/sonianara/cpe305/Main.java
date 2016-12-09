@@ -256,13 +256,13 @@ public class Main extends Application {
       }
      
       buttonRack[i].wrapTextProperty().setValue(true);
-      if (playerArr.get(i).getLetter() != ' ') {
-        buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase() + " (" + (game.getTileSet().getLetterValue(playerArr.get(i).getLetter())) + ")");
+      if (playerArr.get(i).getLetter() == '_' || playerArr.get(i).getLetter() == ' ') {
+        buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase());
         buttonRack[i].setMinWidth(50);
         buttonRack[i].setMinHeight(50);
       }
-      else {
-        buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase());
+      else if (playerArr.get(i).getLetter() != ' '){
+        buttonRack[i].setText(Character.toString(playerArr.get(i).getLetter()).toUpperCase() + " (" + (game.getTileSet().getLetterValue(playerArr.get(i).getLetter())) + ")");
         buttonRack[i].setMinWidth(50);
         buttonRack[i].setMinHeight(50);
       }
