@@ -109,15 +109,6 @@ public class Player {
     return playerSet.size();
   }
   
-  /**
-   * prints the player's set of tiles 
-   * @param playerSet
-   */
-  public void printPlayerSet(List<LetterTile> playerSet) {
-    for (LetterTile lt : playerSet) {
-      System.out.print(lt.getLetter() + " ");
-    }
-  }
 
   /**
    * get one letter from the player's set of tiles 

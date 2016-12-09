@@ -76,8 +76,14 @@ public class PlayerTest {
     playerList.add(letter6);
     
     p.setPlayerSet(playerList);
+   
     assertEquals(6, p.getPlayerSetSize());
+    
+    p.deleteTile('a');
+    
+    assertEquals(5, p.getPlayerSetSize());
   }
+  
 
   public static void main(String[] args) {
     org.junit.runner.JUnitCore.main("LetterTest");
