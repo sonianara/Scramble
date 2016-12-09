@@ -15,6 +15,15 @@ public class GameTest {
     assertNotNull(game);
   }
   
+  @Test
+  public void TestGetTileSet() {
+    assertEquals(TileSet.getInstance(), game.getTileSet());
+  }
+  
+  @Test
+  public void TestGetDicSearch() {
+    assertEquals(DictionarySearch.getInstance(), game.getDictionary());
+  }
   
   @Test
   public void TestCheckWord() {
@@ -30,6 +39,7 @@ public class GameTest {
     myList.add(loc3);
     assertEquals("pa", game.checkWords(myList, board));
   }
+  
   
   @Test
   public void TestGetLeft() {
@@ -75,6 +85,7 @@ public class GameTest {
   public void TestGetTop() {
     char[][] board = new char[15][15];
     game.instantiateBoard(board);
+    board[8][7] = 's';
     board[8][8] = 'p';
     board[8][9] = 'a';
     board[8][10] = 's';
@@ -89,7 +100,118 @@ public class GameTest {
     myList.add(loc3);
 
     assertEquals(8, game.getTop(myList, board).getX());
-    assertEquals(8, game.getTop(myList, board).getY());
+    assertEquals(7, game.getTop(myList, board).getY());
+  }
+  
+  @Test 
+  public void TestGetWordString() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+    board[8][8] = 'p';
+    board[8][9] = 'a';
+    board[8][10] = 's';
+    board[8][11] = 't';
+    board[8][12] = 's';
+    
+    List<String> strs = new ArrayList<>();
+    strs.add("pasts");
+    assertEquals(strs, game.getWordsString(board));
+  }
+  
+  @Test
+  public void TestMakeFinalMove() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+    board[8][8] = 'p';
+    board[8][9] = 'a';
+    board[8][10] = 's';
+    board[8][11] = 't';
+    board[8][12] = 's';
+    
+    Player p = new Player();
+    LetterTile lt = new LetterTile('p');
+    LetterTile lt1 = new LetterTile('a');
+    LetterTile lt2 = new LetterTile('s');
+    LetterTile lt3 = new LetterTile('t');
+    LetterTile lt4 = new LetterTile('s');
+    LetterTile lt5 = new LetterTile('f');
+    LetterTile lt6 = new LetterTile('_');
+    
+    List<LetterTile> tileList = new ArrayList<LetterTile>();
+    tileList.add(lt);
+    tileList.add(lt1);
+    tileList.add(lt2);
+    tileList.add(lt3);
+    tileList.add(lt4);
+    tileList.add(lt5);
+    tileList.add(lt6);
+    
+    p.setPlayerSet(tileList);
+    
+    assertEquals(true, game.makeFinalMove(board, p));
+  }
+  
+  @Test
+  public void TestMakeFinalMove2() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+    board[8][8] = 'p';
+    board[8][9] = 'a';
+    board[8][10] = 's';
+    board[8][11] = 't';
+    board[8][12] = 's';
+    
+    Player p = new Player();
+    LetterTile lt = new LetterTile('a');
+    LetterTile lt1 = new LetterTile('b');
+    LetterTile lt2 = new LetterTile('c');
+    LetterTile lt3 = new LetterTile('d');
+    LetterTile lt4 = new LetterTile('e');
+    LetterTile lt5 = new LetterTile('f');
+    LetterTile lt6 = new LetterTile('_');
+    
+    List<LetterTile> tileList = new ArrayList<LetterTile>();
+    tileList.add(lt);
+    tileList.add(lt1);
+    tileList.add(lt2);
+    tileList.add(lt3);
+    tileList.add(lt4);
+    tileList.add(lt5);
+    tileList.add(lt6);
+    
+    p.setPlayerSet(tileList);
+    
+    assertEquals(false, game.makeFinalMove(board, p));
+  }
+  
+  @Test
+  public void TestMakeFinalMove3() {
+    char[][] board = new char[15][15];
+    game.instantiateBoard(board);
+    board[8][8] = 'p';
+    board[10][12] = 'a';
+   
+    Player p = new Player();
+    LetterTile lt = new LetterTile('a');
+    LetterTile lt1 = new LetterTile('b');
+    LetterTile lt2 = new LetterTile('c');
+    LetterTile lt3 = new LetterTile('d');
+    LetterTile lt4 = new LetterTile('e');
+    LetterTile lt5 = new LetterTile('f');
+    LetterTile lt6 = new LetterTile('_');
+    
+    List<LetterTile> tileList = new ArrayList<LetterTile>();
+    tileList.add(lt);
+    tileList.add(lt1);
+    tileList.add(lt2);
+    tileList.add(lt3);
+    tileList.add(lt4);
+    tileList.add(lt5);
+    tileList.add(lt6);
+    
+    p.setPlayerSet(tileList);
+    
+    assertEquals(false, game.makeFinalMove(board, p));
   }
   
   @Test
@@ -238,7 +360,87 @@ public class GameTest {
     assertEquals(myWords, game.allMyNewWords(myList, board));
   }
   
-
+  @Test
+  public void TestHorizontal() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(9, 8);
+    Location loc3 = new Location(10, 8);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    assertEquals(true, game.isHorizontal(myList));
+  }
+  
+  @Test
+  public void TestVertical() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(8, 9);
+    Location loc3 = new Location(8, 10);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    assertEquals(true, game.isVertical(myList));
+  }
+  
+  @Test
+  public void TestGetWord() {
+    Location loc1 = new Location(8, 8);
+    Location loc2 = new Location(8, 9);
+    Location loc3 = new Location(8, 10);
+    List<Location> myList = new ArrayList<>();
+    myList.add(loc1);
+    myList.add(loc2);
+    myList.add(loc3);
+    Board b = new Board();
+    b.createBoard();
+    b.setChar('c', 8, 8);
+    b.setChar('a', 8, 9);
+    b.setChar('t', 8, 10);
+    char c1 = 'c';
+    char c2 = 'a';
+    char c3 = 't';
+    List<Character> chars = new ArrayList<Character>();
+    chars.add(c1);
+    chars.add(c2);
+    chars.add(c3);
+    assertEquals(chars, game.getWord(b, myList));
+  }
+  
+  @Test
+  public void TestArrayToString() {
+    char c1 = 'c';
+    char c2 = 'a';
+    char c3 = 't';
+    List<Character> chars = new ArrayList<Character>();
+    chars.add(c1);
+    chars.add(c2);
+    chars.add(c3);
+    assertEquals("cat", game.arraytoString(chars));
+  }
+ 
+  @Test
+  public void TestIsWord() {
+    String str = "yellow";
+    assertEquals(true, game.isWord(str));
+  }
+  
+  @Test
+  public void TestAllWords() {
+    String str = "yellow";
+    String str2 = "blue";
+    String str3 = "red";
+    String str4 = "green";
+    List<String> myList = new ArrayList<>();
+    myList.add(str);
+    myList.add(str2);
+    myList.add(str3);
+    myList.add(str4);
+    assertEquals(true, game.allWords(myList));
+  }
+  
+  
   public static void main(String[] args) {
     org.junit.runner.JUnitCore.main("GameTest");
   }

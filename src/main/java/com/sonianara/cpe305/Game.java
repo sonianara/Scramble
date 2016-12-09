@@ -363,6 +363,7 @@ public class Game {
   }
  
 
+  /*
 /**
  * This function starts with a given location and traverses all the way up
  * while there are still letters in that direction
