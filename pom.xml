@@ -16,7 +16,7 @@
       <plugin>
       	<groupId>com.zenjava</groupId>
       	<artifactId>javafx-maven-plugin</artifactId>
-      	<version>8.1.2</version>
+      	<version>8.7.0</version>
       	<configuration>
       		<mainClass>com.sonianara.cpe305.Main</mainClass>
       	</configuration>
