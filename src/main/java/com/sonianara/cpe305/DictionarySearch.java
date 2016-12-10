@@ -8,6 +8,7 @@ package com.sonianara.cpe305;
  */
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
@@ -47,8 +48,9 @@ public class DictionarySearch {
   /**
    * @param fileName
    *          The file to open
+   * @throws FileNotFoundException 
    */
-  public void createDictionary(String fileName) {
+  public void createDictionary(String fileName) throws FileNotFoundException {
     Scanner scanner = null;
     Scanner scanner2 = null;
 
@@ -63,8 +65,8 @@ public class DictionarySearch {
         }
         scanner2.close();
       }
-    } catch (Exception ex) {
-      throw new InputMismatchException();
+    } catch (FileNotFoundException ex) {
+      throw new FileNotFoundException();
     }
     finally {
       if (scanner != null) {
