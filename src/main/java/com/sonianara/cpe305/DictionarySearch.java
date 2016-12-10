@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 
 /**
  * The entire Oxford English dictionary 
@@ -63,7 +64,7 @@ public class DictionarySearch {
         scanner2.close();
       }
     } catch (Exception ex) {
-      throw new RuntimeException(ex);
+      throw new InputMismatchException();
     }
     finally {
       if (scanner != null) {
