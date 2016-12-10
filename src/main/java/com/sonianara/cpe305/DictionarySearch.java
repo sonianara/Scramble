@@ -55,19 +55,12 @@ public class DictionarySearch {
       scanner = new Scanner(new File(fileName));
 
       while (scanner.hasNextLine()) {
-        try {
-          scanner2 = new Scanner(scanner.nextLine());
-          while (scanner2.hasNext()) {
-            String s = scanner2.next();
-            dictionary.add(s);
-          }
-        } catch (Exception ex) {
-          if (scanner2 != null) {
-            scanner2.close();
-          }
-          throw new RuntimeException(ex);
+        scanner2 = new Scanner(scanner.nextLine());
+        while (scanner2.hasNext()) {
+          String s = scanner2.next();
+          dictionary.add(s);
         }
-       
+        scanner2.close();
       }
     } catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -76,7 +69,11 @@ public class DictionarySearch {
       if (scanner != null) {
         scanner.close();
       }
+      if (scanner2 != null) {
+        scanner2.close();
+      }
     }
+
   }
 
   /**
