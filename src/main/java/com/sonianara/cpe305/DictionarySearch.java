@@ -67,10 +67,10 @@ public class DictionarySearch {
     }
     finally {
       if (scanner != null) {
-        //scanner.close();
+        scanner.close();
       }
       if (scanner2 != null) {
-        //scanner2.close();
+        scanner2.close();
       }
     }
 
