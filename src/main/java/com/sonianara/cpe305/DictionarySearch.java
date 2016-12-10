@@ -66,7 +66,7 @@ public class DictionarySearch {
         scanner2.close();
       }
     } catch (FileNotFoundException ex) {
-      throw new FileNotFoundException();
+      
     }
     finally {
       if (scanner != null) {
