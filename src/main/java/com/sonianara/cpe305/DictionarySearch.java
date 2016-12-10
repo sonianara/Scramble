@@ -63,7 +63,6 @@ public class DictionarySearch {
         //scanner2.close();
       }
     } catch (Exception ex) {
-      ex.printStackTrace();
       throw new RuntimeException(ex);
     }
     finally {
