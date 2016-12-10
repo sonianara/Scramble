@@ -62,7 +62,9 @@ public class DictionarySearch {
             dictionary.add(s);
           }
         } catch (Exception ex) {
-          scanner2.close();
+          if (scanner2 != null) {
+            scanner2.close();
+          }
           throw new RuntimeException(ex);
         }
        
