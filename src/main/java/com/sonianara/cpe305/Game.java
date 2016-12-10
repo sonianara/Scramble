@@ -17,6 +17,7 @@ public class Game {
   TileSet tileSet = TileSet.getInstance();
   private DictionarySearch dictionary;
   private static Game instance;
+  private List<String> errors;
 
 
   /**
@@ -29,6 +30,8 @@ public class Game {
     // Initialize a unique TileSet for each game
 
     this.dictionary = DictionarySearch.getInstance();
+    
+    this.errors = new ArrayList<>();
 
   }
 
@@ -203,6 +206,7 @@ public class Game {
     List<Location> newLetters = getNewLetterLocation(previousBoard, gameBoard);
     
     if (newLetters.size() < 2 && mainBoard.isEmpty()) {
+      errors.add("Word is too short.");
       makemove = false;
     }
     
@@ -215,14 +219,17 @@ public class Game {
  
     
     if (!isHorizontal(newLetters) && !isVertical(newLetters)) {
+      errors.add("Word is not horizontal or vertical.");
       makemove = false;
     }
     
     if (numberOfWrongLetters > numOfBlankLetters) {
+      errors.add("Word is not played from rack.");
       makemove = false;
     }
     
     if (!allWords(newWords)) {
+      errors.add("Words are not valid.");
       makemove = false;
     }
     
@@ -236,6 +243,10 @@ public class Game {
       replenishPlayerTiles(charsEntered, p);
     }
     return makemove;
+  }
+  
+  public List<String> getErrors() {
+    return errors;
   }
     
   /**

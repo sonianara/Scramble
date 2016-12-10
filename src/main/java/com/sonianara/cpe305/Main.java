@@ -355,7 +355,8 @@ public class Main extends Application {
           errors.setText("");
         }
         else {
-          errors.setText("Wrong play");
+          errors.setText(game.getErrors().get(game.getErrors().size() - 1));
+          errors.setStyle("" + "-fx-font-size: 15px;" + "-fx-font-family: Cambria;");
         }
       }
     });
