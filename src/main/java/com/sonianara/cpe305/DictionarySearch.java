@@ -48,9 +48,8 @@ public class DictionarySearch {
   /**
    * @param fileName
    *          The file to open
-   * @throws FileNotFoundException 
    */
-  public void createDictionary(String fileName) throws FileNotFoundException {
+  public void createDictionary(String fileName) {
     Scanner scanner = null;
     Scanner scanner2 = null;
 
@@ -66,7 +65,6 @@ public class DictionarySearch {
         scanner2.close();
       }
     } catch (FileNotFoundException ex) {
-      
     }
     finally {
       if (scanner != null) {
