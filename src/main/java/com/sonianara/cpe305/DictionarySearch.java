@@ -64,6 +64,7 @@ public class DictionarySearch {
         scanner2.close();
       }
     } catch (Exception ex) {
+      throw new InputMismatchException();
     }
     finally {
       if (scanner != null) {
