@@ -2,7 +2,7 @@ title: Scramble
 description: Java scrabble-solver with a JavaFX GUI
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-cayman
+theme: jekyll-theme-leap-day
 
 gems:
   - jekyll-mentions
