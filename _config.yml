@@ -1,0 +1,8 @@
+title: Scramble
+description: Java scrabble-solver with a JavaFX GUI
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-merlot
+
+gems:
+  - jekyll-mentions
