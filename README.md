@@ -1,4 +1,4 @@
-# Scramble [![Build Status](https://travis-ci.org/cpe305/fall2016-project-sonianara.svg?branch=master)](https://travis-ci.org/cpe305/fall2016-project-sonianara)
+# Scramble [![Build Status](https://travis-ci.org/sonianara/Scramble.svg?branch=master)](https://travis-ci.org/sonianara/Scramble)
 
 A Java implementation of Scrabble using a JavaFX GUI
 
