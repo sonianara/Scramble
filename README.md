@@ -19,6 +19,6 @@ Scramble does not require anything to run. Simply clone the project and run the 
 
 For more information, please visit the GitHub Pages link below. This page will contain a detailed explanation of the game, its additional features, its architecture, and a walk-through of the game. 
     
-   https://cpe305.github.io/fall2016-project-sonianara/
+   https://sonianara.github.io/Scramble/
 
 Please contact sonaraya@calpoly.edu for any questions, comments, or feedback.
